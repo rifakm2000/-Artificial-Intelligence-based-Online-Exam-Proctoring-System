@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Academic Information</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #5f6e96;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #5f6e96;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background-color: #1e40af;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Edit Academic Information</h2>
+
+        <form id="academic-info-form" action="/teacher/academic" method="POST">
+            <div class="form-group">
+                <label for="degree">Degree</label>
+                <input type="text" id="degree" name="degree" 
+                       value="{{ academic_data.degree or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="specialization">Specialization</label>
+                <input type="text" id="specialization" name="specialization"
+                       value="{{ academic_data.specialization or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="year">Years of Experience</label>
+                <input type="number" id="year" name="year" 
+                       value="{{ academic_data.year or '' }}">
+            </div>
+        
+            <button type="submit" class="save-btn">Save</button>
+        </form>
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById("personal-info-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get the input values
+            const fullName = document.getElementById("full-name").value.trim();
+            const address1 = document.getElementById("address").value.trim();
+            const address = document.getElementById("address").value.trim();
+
+            if (fullName && address1 && address) {
+                // You can also show a notification or redirect to another page
+                alert("Academic Information updated successfully!");
+                window.location.href = "tr_profile.html"; // Redirect back to profile page after saving
+            } else {
+                alert("Please fill in all fields.");
+            }
+        });
+    </script>
+</body>
+
+</html>

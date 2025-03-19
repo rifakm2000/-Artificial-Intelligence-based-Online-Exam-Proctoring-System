@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Complaint Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2c5282;
+            --accent-color: #4299e1;
+            --background-light: #f8fafc;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-light);
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            left: 0;
+            padding-top: 30px;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .sidebar .navbar {
+            padding: 0 24px;
+            margin-bottom: 40px;
+        }
+
+        .sidebar .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar .navbar-brand span:first-child {
+            color: var(--primary-color);
+        }
+
+        .sidebar .navbar-brand span:last-child {
+            color: var(--accent-color);
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 0 20px;
+        }
+
+        .profile img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e2e8f0;
+            margin-bottom: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .profile img:hover {
+            transform: scale(1.03);
+        }
+
+        .profile h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .menu {
+            padding: 0 16px;
+        }
+
+        .menu-item {
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin: 4px 0;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: #ebf8ff;
+            color: var(--primary-color);
+        }
+
+        .menu-item.active {
+            font-weight: 600;
+        }
+
+        .menu-item .icon {
+            font-size: 1.1rem;
+            margin-right: 12px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .content {
+            margin-left: 280px;
+            padding: 32px 40px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .complaints-section {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .complaint-item {
+            padding: 20px 24px;
+            border-bottom: 1px solid #edf2f7;
+            transition: background-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            word-break: break-word;
+        }
+
+        .complaint-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .complaint-item:last-child {
+            border-bottom: none;
+        }
+
+        .complaint-item h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .complaint-meta {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .complaint-item p {
+            margin: 0 0 16px;
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .reply-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .reply-form textarea {
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.2s ease;
+        }
+
+        .reply-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .reply-form button {
+            align-self: flex-end;
+            padding: 10px 24px;
+            font-size: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .reply-form button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="navbar">
+            <div class="navbar-brand">
+                <span></span><span></span>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='admin.png') }}" alt="Admin Profile">
+            <h3>Administrator</h3>
+        </div>
+        <div class="menu">
+            <a href="/admin/adash" class="menu-item active">
+                <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
+                Complaint Management
+            </a>
+            <a href="#" id="logout" class="menu-item">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                Logout Session
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="navbar">
+            <h2>Pending Complaints</h2>
+        </div>
+
+        <div class="complaints-section">
+            {% if complaints %}
+                {% for complaint in complaints %}
+                <div class="complaint-item">
+                    <h3>Case #{{ complaint['complaint_id'] }}</h3>
+                    <div class="complaint-meta">
+                        <span>
+                            <i class="fas fa-user-tag"></i>
+                            {% if complaint['user_id'] is not none %}
+                                User ID: {{ complaint['user_id'] }}
+                            {% elif complaint['authority_id'] is not none %}
+                                Authority ID: {{ complaint['authority_id'] }}
+                            {% else %}
+                                Anonymous
+                            {% endif %}
+                        </span>
+                        <span><i class="fas fa-clock"></i> Received: {{ complaint['submission_time'] }}</span>
+                    </div>
+                    <p>{{ complaint['complaint_text'] }}</p>
+                    <form class="reply-form" action="/send_reply" method="POST">
+                        <textarea name="reply_text" placeholder="Compose official response..." required></textarea>
+                        <input type="hidden" name="complaint_id" value="{{ complaint['complaint_id'] }}">
+                        <button type="submit">
+                            <i class="fas fa-paper-plane"></i> Post Response
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-check-circle fa-2x" style="color: #c3dafe; margin-bottom: 12px;"></i>
+                    <p>All cases resolved - No pending complaints</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('logout').addEventListener('click', function (e) {
+            e.preventDefault();
+            const confirmLogout = confirm("Confirm administrator logout?");
+            if (confirmLogout) {
+                window.location.href = "/logout";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proctoring Solution | OnlineEx</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2c5aa0;
+            --secondary-blue: #4a90e2;
+            --dark-gray: #2c3e50;
+            --light-gray: #7f8c8d;
+
+        } 
+
+        
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-gray);
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 0;
+            height: 80px;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-blue);
+        }
+        
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #f9fbff 0%, #e6efff 100%);
+            padding: 10rem 0 10rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        .lead-text {
+            font-size: 1.3rem;
+            color: var(--light-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-section {
+            background: var(--primary-blue);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .footer {
+            background: #1a2b4d;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Text Field for Enter Exam Code */
+        .test-link-input {
+            padding: 0.8rem 1.2rem; /* Decrease padding to reduce height and width */
+            font-size: 1rem; /* Decrease font size */
+            border-radius: 0.75rem; /* Keep border radius for rounded corners */
+            width: 80%; /* Decrease width, adjust to your preference */
+            margin: 0 auto; /* Center the input field */
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            border: none;
+            padding: 0.8rem 2rem; /* Decrease padding for smaller button */
+            font-size: 1rem; /* Decrease font size */
+            border-radius: 0.75rem; /* Keep border radius for rounded corners */
+        }
+
+        /* Create New Exam Button */
+        .btn-primary + .btn-primary {
+            padding: 0.8rem 2rem; /* Decrease padding for smaller button */
+            font-size: 1rem; /* Decrease font size */
+            border-radius: 0.75rem; /* Keep border radius for rounded corners */
+        }
+
+
+        .btn-primary:hover {
+            background: #1f4785;
+        }
+
+        /* Dropdown */
+        .dropdown-menu {
+            min-width: 150px;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+            transform: translateY(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease-in-out;
+            border-right: 2px solid var(--primary-blue); /* Add right border */
+        }
+
+        .dropdown:hover .dropdown-menu {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-item {
+            font-size: 1rem;
+            color: #2c3e50;
+            transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f4ff;
+            color: #2c5aa0;
+        }
+
+        .btn-create-test {
+            background-color: #788ec7;
+            color: #fff;
+            font-size: 1rem;
+            padding: 0.7rem 2rem;
+            border-radius: 0.5rem;
+            border: none;
+            margin-right: 1rem;
+        }
+
+        .btn-create-test:hover {
+            background-color: #357abd;
+        }
+
+        .test-link-input {
+            width: 50%;
+            max-width: 400px;
+            border-radius: 0.5rem;
+            border: 1px solid #ddd;
+            padding: 0.6rem;
+        }
+
+        .btn-join {
+            background-color: transparent;
+            color: #4a90e2;
+            font-weight: bold;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: not-allowed;
+        }
+
+        .btn-join.active {
+            cursor: pointer;
+            color: #fff;
+            background-color: #788ec7;
+        }
+
+        .navbar-brand {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-left: -1cm; /* Move the brand 1cm to the left */
+    }
+
+    .navbar-brand span:first-child {
+      color: #0c447b; /* Dark blue for "Online" */
+    }
+
+    .navbar-brand span:last-child {
+      color: #4a90e2; /* Light blue for "Ex" */
+    }
+        
+     /* Popup Styles */
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    text-align: center;
+    z-index: 1050;
+}
+
+.rules-content {
+    text-align: left;
+    margin-bottom: 24px;
+    color: var(--light-gray);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.rules-content ul {
+    padding-left: 24px;
+    margin: 16px 0;
+}
+
+.rules-content li {
+    margin-bottom: 12px;
+}
+
+.agree-button {
+    width: 100%;
+    padding: 12px;
+    color: white;
+    background-color: var(--primary-blue);
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.agree-button:hover {
+    background-color: var(--secondary-blue);
+}   
+    </style>
+</head>
+<body>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/about">
+                    <div class="navbar-brand">
+                        <span></span><span></span>
+                    </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#stats">Stats</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/faq">FAQ</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button">
+                            Login
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                            <li><a class="dropdown-item" href="/login"><i class="fas fa-user-graduate me-2"></i> Student</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('teacher_login') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Teacher</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin_login') }}"><i class="fas fa-user-shield me-2"></i> Admin</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="section-title">Secure Online Proctoring<br>for Modern Education</h1>
+            <p class="lead-text mb-5">AI-powered proctoring solution ensuring academic integrity with real-time monitoring and advanced fraud detection.</p>
+            
+            <div class="mt-4">
+                <button class="btn btn-create-test" onclick="location.href='/teacher/login'">Create a test</button>
+                <input type="text" id="testLink" class="test-link-input" placeholder="Unique test link?" oninput="validateInput()">
+                <button class="btn btn-join" id="joinButton" disabled>Join</button>
+            </div>
+        </div>
+    </section>
+
+     <!-- Features Section -->
+     <section id="features" class="py-6">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3>AI Monitoring</h3>
+                        <p>Real-time behavior analysis and suspicious activity detection</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-video feature-icon"></i>
+                        <h3>Live Proctoring</h3>
+                        <p>24/7 live monitoring by certified professionals</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h3>Advanced Analytics</h3>
+                        <p>Detailed reports and performance insights</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="stat-section">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stat-number">500K+</div>
+                    <p>Exams Conducted</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-number">98%</div>
+                    <p>Accuracy Rate</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-number">150+</div>
+                    <p>Institutions Trust Us</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>OnlineXm</h5>
+                    <p>Leading online proctoring solution since 2018</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#features" class="text-white">Features</a></li>
+                        <li><a href="#stats" class="text-white">Statistics</a></li>
+                        <li><a href="/contact" class="text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p>support@onlineex.com<br>+1 (555) 123-4567</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Rules Popup -->
+<div class="popup-container" id="rules-popup">
+    <h3>Exam Rules and Guidelines</h3>
+    <div class="rules-content">
+        <p>Before proceeding to the exam, please read and agree to follow these rules:</p>
+        <ul>
+            <li>You must have a functioning webcam and microphone enabled throughout the exam</li>
+            <li>Do not switch tabs or open other applications during the exam</li>
+            <li>Any attempt to copy or use unauthorized materials will result in disqualification</li>
+            <li>Ensure you have a stable internet connection before starting</li>
+            <li>The exam must be completed in one session - you cannot pause and resume later</li>
+            <li>All answers are final once submitted</li>
+        </ul>
+        <p>Violation of any rules may result in immediate termination of your exam.</p>
+    </div>
+    <button class="agree-button" id="agree-btn">I Agree - Proceed to Exam</button>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Show dropdown on hover
+        document.querySelector('.dropdown').addEventListener('mouseenter', function () {
+            this.querySelector('.dropdown-menu').classList.add('show');
+        });
+
+        // Hide dropdown when mouse leaves
+        document.querySelector('.dropdown').addEventListener('mouseleave', function () {
+            this.querySelector('.dropdown-menu').classList.remove('show');
+        });
+
+        // Animate statistics
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        const animateCounter = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+
+                    if(count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(updateCount, 10);
+                    } else {
+                        counter.innerText = target;
+                    }
+                }
+                updateCount();
+            });
+        }
+
+        function validateInput() {
+            const testLink = document.getElementById("testLink").value.trim();
+            const joinButton = document.getElementById("joinButton");
+    
+            if (testLink) {
+                joinButton.disabled = false;
+                joinButton.classList.add("active");
+            } else {
+                joinButton.disabled = true;
+                joinButton.classList.remove("active");
+            }
+        }
+    
+        document.getElementById("joinButton").addEventListener("click", function(e) {
+    e.preventDefault();
+    const examLink = document.getElementById("testLink").value.trim();
+    if (examLink) {
+        document.getElementById("rules-popup").style.display = 'block';
+    }
+});
+
+// Add agree button functionality
+document.getElementById("agree-btn").addEventListener("click", function() {
+    const examLink = document.getElementById("testLink").value.trim();
+    if (examLink) {
+        window.location.href = `/login?exam_link=${encodeURIComponent(examLink)}`;
+    }
+});
+
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
+    const rulesPopup = document.getElementById('rules-popup');
+    if (rulesPopup.style.display === 'block' && 
+        !event.target.closest('.popup-container') && 
+        !event.target.closest('#joinButton')) {
+        rulesPopup.style.display = 'none';
+    }
+});
+
+        // Trigger animation when section is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    animateCounter();
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('#stats'));
+    </script>
+
+</body>
+</html>

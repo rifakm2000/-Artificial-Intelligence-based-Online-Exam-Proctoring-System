@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Proctoring Online Exam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2A4365;
+            --secondary-color: #4299E1;
+            --accent-color: #48BB78;
+            --text-color: #4A5568;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #F7FAFC;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navbar-brand span:first-child {
+            color: var(--primary-color);
+        }
+
+        .navbar-brand span:last-child {
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 0 2rem;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-header p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-card h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .contact-card i {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .contact-info {
+            margin: 1rem 0;
+        }
+
+        .contact-info p {
+            margin: 0.75rem 0;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .address {
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 80px;
+                padding: 0 1rem;
+            }
+            
+            .contact-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span>Online</span><span>Ex</span>
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="contact-header">
+            <h1>Contact Our Support Team</h1>
+            <p>Have questions or need assistance? Our dedicated support team is here to ensure your proctoring experience is seamless and successful.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h2><i class="fas fa-envelope"></i>General Inquiries</h2>
+                <div class="contact-info">
+                    <p><a href="mailto:support@yourexamproctor.com">support@yourexamproctor.com</a></p>
+                    <p>Response time: Within 24 hours</p>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <h2><i class="fas fa-headset"></i>Technical Support</h2>
+                <div class="contact-info">
+                    <p><a href="tel:+11234567890">+1 (123) 456-7890</a></p>
+                    <p><a href="mailto:tech@yourexamproctor.com">tech@yourexamproctor.com</a></p>
+                    <p>24/7 Availability</p>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <h2><i class="fas fa-briefcase"></i>Business Inquiries</h2>
+                <div class="contact-info">
+                    <p><a href="mailto:partnerships@yourexamproctor.com">partnerships@yourexamproctor.com</a></p>
+                    <p>Enterprise solutions and partnerships</p>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <h2><i class="fas fa-map-marker-alt"></i>Corporate Office</h2>
+                <div class="address">
+                    <p><strong>Your Exam Proctor Inc.</strong></p>
+                    <p>123 Proctoring Lane<br>
+                    Suite 456<br>
+                    City, State, ZIP Code</p>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <h2><i class="fas fa-comments"></i>Live Chat</h2>
+                <div class="contact-info">
+                    <p>Available during business hours</p>
+                    <a href="#" class="chat-button">Start Chat →</a>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <h2><i class="fas fa-share-alt"></i>Social Media</h2>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Skills</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+            margin: 0;
+        }
+        .navbar {
+      position: absolute;
+      top: 30px;
+      left: 90px;
+    }
+
+
+    .navbar-brand {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-left: -1cm; /* Move the brand 1cm to the left */
+    }
+
+    .navbar-brand span:first-child {
+      color: #0c447b; /* Dark blue for "Online" */
+    }
+
+    .navbar-brand span:last-child {
+      color: #4a90e2; /* Light blue for "Ex" */
+    }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #5f6e96;
+        }
+
+        .skills-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skills-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .skills-list li button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .skills-list li button:hover {
+            background-color: #c0392b;
+        }
+
+        .add-skill-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5f6e96;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px; /* Add space between the buttons */
+        }
+
+        .add-skill-button:hover {
+            background-color: #4a598c;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #5f6e96;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-brand">
+            <span>Online</span><span>Ex</span>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Edit Skills</h2>
+
+        <ul class="skills-list" id="skills-list">
+            {% for skill in skills %}
+            <li><span>{{ skill }}</span><button class="remove-skill">Remove</button></li>
+            {% endfor %}
+        </ul>
+
+        <input type="text" id="new-skill" placeholder="Enter a new skill" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <button class="add-skill-button" id="add-skill-btn">Add Skill</button>
+
+        <form id="skills-form" method="POST" action="{{ url_for('edit_skills') }}">
+            <input type="hidden" name="skills[]" id="hidden-skills">
+            <button type="submit" id="save-skills-btn" class="save-btn">Save</button>
+        </form>
+    </div>
+
+    <script>
+        // Add new skill
+        document.getElementById("add-skill-btn").addEventListener("click", function() {
+            const newSkill = document.getElementById("new-skill").value.trim();
+            if (newSkill) {
+                const skillsList = document.getElementById("skills-list");
+                const skillItem = document.createElement("li");
+                skillItem.innerHTML = `<span>${newSkill}</span><button class="remove-skill">Remove</button>`;
+                skillsList.appendChild(skillItem);
+                document.getElementById("new-skill").value = ''; // Reset the input
+            } else {
+                alert("Please enter a skill.");
+            }
+        });
+
+        // Remove skill
+        document.getElementById("skills-list").addEventListener("click", function(event) {
+            if (event.target.classList.contains("remove-skill")) {
+                event.target.parentElement.remove();
+            }
+        });
+
+        // Save skills and show notification
+        document.getElementById("save-skills-btn").addEventListener("click", function() {
+            const skillsList = document.getElementById("skills-list");
+            const skills = [];
+            
+            // Collect the skills from the list
+            skillsList.querySelectorAll("li span").forEach(function(skill) {
+                skills.push(skill.textContent);
+            });
+
+            if (skills.length > 0) {
+            // Set skills to the hidden input field
+            document.getElementById("hidden-skills").value = skills.join(',');
+
+            // Allow form submission
+            alert("Skills updated successfully!");
+        } else {
+            alert("Please add at least one skill.");
+            event.preventDefault();
+        }
+    });
+
+
+    document.getElementById("skills-form").addEventListener("submit", function(e) {
+    const skillsList = document.getElementById("skills-list");
+    const skills = [];
+    
+    // Collect skills from the list
+    skillsList.querySelectorAll("li span").forEach(function(skill) {
+        skills.push(skill.textContent);
+    });
+
+    // Remove existing hidden inputs
+    const existingInputs = document.querySelectorAll('input[name="skills[]"]');
+    existingInputs.forEach(input => input.remove());
+
+    // Create new hidden inputs for each skill
+    skills.forEach(skill => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'skills[]';
+        input.value = skill;
+        document.getElementById("skills-form").appendChild(input);
+    });
+});
+    </script>
+</body>
+
+</html>

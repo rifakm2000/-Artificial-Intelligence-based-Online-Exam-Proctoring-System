@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Automated Online Exam Proctoring System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            background: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 1rem;
+            display: none;
+            background-color: #f9f9f9;
+        }
+
+        .faq-answer p {
+            margin: 0;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .back-to-home {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            margin-top: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .back-to-home i {
+            margin-right: 8px;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .faq-question {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Frequently Asked Questions (FAQ)</h1>
+
+        <!-- FAQ Items -->
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>1. What is Automated Online Exam Proctoring?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    Automated Online Exam Proctoring is a system that monitors students during online exams using AI and webcam technology. It ensures exam integrity by detecting suspicious activities like face mismatches, multiple faces, or prohibited objects.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>2. How does the face recognition feature work?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    During the exam, the system captures your face via the webcam and compares it with the verified image you provided during registration. If a mismatch is detected, a violation is logged, and the instructor is notified.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>3. What happens if I lose internet connection during the exam?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    If you lose internet connection, the system will pause the exam timer. Once your connection is restored, you can resume the exam from where you left off. However, prolonged disconnection may result in exam termination.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>4. Can I use a calculator during the exam?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    Yes, you can use the built-in calculator provided in the exam interface. However, using an external calculator or any other unauthorized device is prohibited and may result in a violation.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>5. What happens if I violate exam rules?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    If a violation is detected (e.g., face mismatch, prohibited objects, or tab switching), the system will log the incident and notify the instructor. Repeated violations may result in exam disqualification.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>6. How is my data protected?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    Your data is securely stored and encrypted. We comply with data protection regulations to ensure your privacy. Your webcam footage and exam data are only accessible to authorized personnel.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>7. Can I take the exam on a mobile device?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    No, the exam must be taken on a desktop or laptop with a stable internet connection and a functioning webcam. Mobile devices are not supported.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>8. What should I do if I encounter technical issues?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    If you encounter technical issues, contact your instructor or the support team immediately. Provide details of the issue, including screenshots or error messages, for faster resolution.
+                </p>
+            </div>
+        </div>
+
+        <!-- Back to Home with Arrow Icon -->
+        <a href="/" class="back-to-home">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+    <script>
+        // FAQ Toggle Functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+        faqQuestions.forEach((question) => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                question.classList.toggle('active');
+                answer.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

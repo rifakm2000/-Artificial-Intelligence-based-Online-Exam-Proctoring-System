@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1a365d;
+            --accent-blue: #4299e1;
+            --light-bg: #f8fafc;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e2e8f0;
+            padding-top: 30px;
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            padding: 0 24px;
+            margin-bottom: 40px;
+        }
+
+        .navbar-brand span:first-child {
+            color: var(--primary-blue);
+        }
+
+        .navbar-brand span:last-child {
+            color: var(--accent-blue);
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 0 20px;
+        }
+
+        .profile img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e2e8f0;
+            transition: transform 0.2s ease;
+        }
+
+        .profile h3 {
+            margin: 16px 0 0;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .menu {
+            padding: 0 16px;
+        }
+
+        .menu-item {
+            padding: 14px 20px;
+            font-size: 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin: 4px 0;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: #ebf8ff;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .menu-item .icon {
+            font-size: 1.1rem;
+            margin-right: 12px;
+            width: 24px;
+        }
+
+        .content {
+            margin-left: 280px;
+            padding: 32px 40px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            font-size: 18px;
+            color: black;
+            cursor: pointer;
+        }
+
+        .search-field {
+            position: absolute;
+            left: -220px;
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-field input {
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 14px;
+            width: 200px;
+        }
+
+        .menu-icon {
+            font-size: 18px;
+            color: black;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .menu-items {
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .menu-items a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #2b2b2b;
+            font-size: 14px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-items a:hover {
+            background-color: #f0f5ff;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .result-table th,
+        .result-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .result-table th {
+            background-color: #f0f5ff;
+            font-weight: 600;
+            color: #4a90e2;
+        }
+
+        .result-table tr:hover {
+            background-color: #f9fbff;
+        }
+
+        .result-table td {
+            font-size: 14px;
+            color: #2b2b2b;
+        }
+
+        .result-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="navbar-brand">
+            <span></span><span></span>
+        </div>
+        
+        <div class="profile">
+            <a href="/teacher/tr_profile">
+                <img src="data:image/jpeg;base64,{{ profile_image }}" alt="Profile Picture">
+            </a>
+            <h3>{{ fullname }}</h3>
+        </div>
+
+        <div class="menu">
+            <a href="/teacher/trdash" class="menu-item">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>Dashboard
+            </a>
+            <a href="/teacher/tr_createxm" class="menu-item">
+                <span class="icon"><i class="fas fa-pencil-alt"></i></span>Create Exam
+            </a>
+            <a href="/teacher/tr_result" class="menu-item active">
+                <span class="icon"><i class="fas fa-chart-bar"></i></span>Results
+            </a>
+            <a href="{{ url_for('change1_password') }}" class="menu-item">
+                <span class="icon"><i class="fas fa-lock"></i></span>Password Change
+            </a>
+            <a href="/teacher/tr_complaint" class="menu-item">
+                <span class="icon"><i class="fas fa-comment-dots"></i></span>Support Center
+            </a>
+            <a href="/logout" class="menu-item">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="navbar">
+            <h2>Exam Results</h2>
+
+            <div class="search-container">
+                <i class="fas fa-search search-icon" id="search-icon"></i>
+                <div class="search-field" id="search-field">
+                    <input type="text" placeholder="Search...">
+                </div>
+                <i class="fas fa-ellipsis-v menu-icon" id="menu-icon"></i>
+                <div class="menu-items" id="menu-items">
+                    <a href="#">Class</a>
+                    <a href="#">Date</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <table class="result-table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>Exam</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="result-body">
+                {% if results %}
+                    {% for result in results %}
+                    <tr>
+                        <td><a href="{{ url_for('student_answers', answer_id=result.answer_id) }}">{{ result.fullname }}</a></td>
+                        <td>{{ result.submitted_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ result.exam_title }}</td>
+                        <td>{{ result.score }}</td>
+                        <td>
+                            {% if result.status == 'passed' %}
+                                <span style="color: green;">{{ result.status }}</span>
+                            {% elif result.status == 'failed' %}
+                                <span style="color: red;">{{ result.status }}</span>
+                            {% else %}
+                                {{ result.status }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center;">No results available.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const searchIcon = document.getElementById('search-icon');
+        const searchField = document.getElementById('search-field');
+        const menuIcon = document.getElementById('menu-icon');
+        const menuItems = document.getElementById('menu-items');
+
+        searchIcon.addEventListener('click', () => {
+            searchField.style.display = searchField.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            menuItems.style.display = menuItems.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchIcon.contains(e.target) && !searchField.contains(e.target)) {
+                searchField.style.display = 'none';
+            }
+            if (!menuIcon.contains(e.target) && !menuItems.contains(e.target)) {
+                menuItems.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(this.href.includes('logout')) {
+                    e.preventDefault();
+                    if(confirm('Are you sure you want to logout?')) {
+                        window.location.href = this.href;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

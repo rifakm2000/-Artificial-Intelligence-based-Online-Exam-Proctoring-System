@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Violations - {{ exam_title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --text-light: #ecf0f1;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 2rem;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        .violation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .violation-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .violation-image-container {
+            width: 100%;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f0f0;
+            height: 250px;
+        }
+
+        .violation-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .no-image {
+            color: #666;
+            font-style: italic;
+        }
+
+        .violation-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            min-width: 100px;
+            color: var(--primary-color);
+        }
+
+        .violation-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .no-violations {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            font-style: italic;
+            grid-column: span 3;
+        }
+
+        .back-arrow-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.back-arrow i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.back-arrow:hover {
+    color: #1a4d8c;
+}
+    </style>
+</head>
+<body>
+    <h1 class="violation-title">Exam Violations for {{ exam_title }}</h1>
+    <div class="violation-container">
+        {% if violations %}
+            {% for violation in violations %}
+                <div class="violation-card">
+                    <div class="violation-image-container">
+                        <img src="{{ url_for('get_violation_image', violation_id=violation.violation_id) }}"
+                             alt="Violation capture"
+                             class="violation-image"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                        <div class="no-image" style="display: none;">No Image Available</div>
+                    </div>
+                    <div class="violation-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Violation Type:</span>
+                            <span>{{ violation.violation_type }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Date/Time:</span>
+                            <span>{{ violation.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                        </div>
+                        {% if violation.face_count > 0 %}
+                            <div class="detail-item">
+                                <span class="detail-label">Faces Detected:</span>
+                                <span>{{ violation.face_count }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-violations">No violations recorded for this exam.</div>
+        {% endif %}
+    </div>
+    <div class="back-arrow-container">
+        <a href="/teacher/monitor" class="back-arrow">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+</body>
+</html>

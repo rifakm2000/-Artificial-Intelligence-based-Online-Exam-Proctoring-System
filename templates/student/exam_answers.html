@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Answers | Student View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --background: #f8fafc;
+            --surface: #ffffff;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px 0;
+            background: var(--background);
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            margin-bottom: 32px;
+        }
+
+        .back-link:hover {
+            background: #eff6ff;
+            transform: translateX(-4px);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 16px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .question {
+            margin: 24px 0;
+            padding: 24px;
+            background: var(--background);
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .question:hover {
+            transform: translateX(4px);
+        }
+
+        .question h3 {
+            font-size: 18px;
+            color: var(--secondary);
+            margin: 0 0 16px 0;
+        }
+
+        .question-number {
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            margin: 16px 0;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .answer-highlight {
+            display: inline-block;
+            padding: 8px 12px;
+            background: #dbeafe;
+            color: var(--secondary);
+            border-radius: 4px;
+            font-weight: 500;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('stu_result') }}" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Results
+        </a>
+        <h1>Exam Performance Review: {{ exam_title }}</h1>
+        
+        {% for answer in answers %}
+        <div class="question">
+            <div class="question-number">{{ loop.index }}</div>
+            <h3>{{ answer.marks }} Mark{{ 's' if answer.marks > 1 }}</h3>
+            <p>{{ answer.question_text }}</p>
+            {% if answer.question_image %}
+            <img src="data:image/jpeg;base64,{{ answer.question_image }}" class="question-image">
+            {% endif %}
+            {% if answer.options %}
+            <div class="options">
+                <strong>Options:</strong> {{ answer.options }}
+            </div>
+            {% endif %}
+            <div class="answer-highlight">Your Answer: {{ answer.answer }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

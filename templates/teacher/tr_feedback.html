@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            left: 0;
+            padding-top: 80px;
+            transition: 0.3s ease;
+        }
+
+        .sidebar .profile {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .profile img {
+            width: 80px;
+            border-radius: 50%;
+        }
+
+        .sidebar .profile h3 {
+            margin: 10px 0 5px;
+        }
+
+        .sidebar .profile p {
+            margin: 0;
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+
+        .menu {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2b2b2b;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: #f0f5ff;
+            border-left-color: #4a90e2;
+        }
+
+        .menu-item svg {
+            margin-right: 10px;
+        }
+
+        .menu-item .icon {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
+        .feedback-section {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .feedback-section h2 {
+            margin: 0 0 15px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
+        .feedback-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feedback-section textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            width: 100%;
+        }
+
+        .feedback-section button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #5f6e96;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .feedback-section button:hover {
+            background-color: #4378b4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="profile">
+            <a href="/teacher/tr_profile">
+                <img src="https://via.placeholder.com/80" alt="Profile Picture">
+            </a>
+            <h3>Teacher</h3>
+            <p>( Dashboard )</p>
+        </div>
+        <div class="menu">
+            <a href="/teacher/trdash" class="menu-item">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>Dashboard
+            </a>
+            <a href="/teacher/tr_createxm" class="menu-item">
+                <span class="icon"><i class="fas fa-pencil-alt"></i></span>Create Exam
+            </a>
+            <a href="/teacher/tr_result" class="menu-item">
+                <span class="icon"><i class="fas fa-chart-bar"></i></span>Results
+            </a>
+            <a href="/teacher/tr_feedback" class="menu-item active">
+                <span class="icon"><i class="fas fa-comments"></i></span>Feedback
+            </a>
+            <a href="/logout" id="logout" class="menu-item">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span><span class="text">Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="navbar">
+            <h2>Feedback</h2>
+        </div>
+
+        <div class="feedback-section">
+            <h2>Submit Feedback</h2>
+            <form action="submit_feedback.php" method="POST">
+                <textarea name="feedback" rows="8" placeholder="Write your feedback here..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('logout').addEventListener('click', function (e) {
+            e.preventDefault();
+            const confirmLogout = confirm("Are you sure you want to logout?");
+            if (confirmLogout) {
+                // Redirect to the home page (e.g., index.html)
+                window.location.href = "/logout";
+            }
+        });
+    </script>
+</body>
+
+</html>

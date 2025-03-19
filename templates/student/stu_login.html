@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome for the eye icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 30px;
+            left: 90px;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-left: -1cm; /* Move the brand 1cm to the left */
+        }
+
+        .navbar-brand span:first-child {
+            color: #0c447b; /* Dark blue for "Online" */
+        }
+
+        .navbar-brand span:last-child {
+            color: #4a90e2; /* Light blue for "Ex" */
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+        }
+
+        .login-container h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2b2b2b;
+            margin-bottom: 20px;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container input {
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+        }
+
+        .login-container button {
+            padding: 10px 15px;
+            background-color: #4a90e2;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #357abd;
+        }
+
+        .login-container .signup-link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .login-container .signup-link a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-container .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Flash message styling */
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            width: 84%;
+            padding-right: 40px; /* Space for the eye icon */
+        }
+
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 40%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .password-wrapper .toggle-password:hover {
+            color: #4a90e2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-brand">
+            <span></span><span></span>
+        </div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <h1>Student Login</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'login_success' %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% elif category == 'login_error' %}
+                    <div class="alert alert-error">{{ message }}</div>
+                {% elif category == 'danger' %}
+                    <div class="alert alert-error">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <!-- Login Form -->
+        <form action="{{ url_for('stu_login') }}" method="POST">
+            <input type="hidden" name="exam_link" value="{{ exam_link }}">
+            <input type="text" name="username" placeholder="Username" required>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+            </div>
+            <button type="submit">Log In</button>
+        </form>
+
+        <div class="signup-link">
+            Don't have an account? <a href="{{ url_for('stu_signup') }}">Sign Up</a>
+        </div>
+    </div>
+</body>
+
+<script>
+    // JavaScript to toggle password visibility
+    const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function () {
+            // Toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the eye icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+    setTimeout(function() {
+        let alerts = document.querySelectorAll(".alert");
+        alerts.forEach(alert => alert.style.display = "none");
+    }, 3000); // Hide messages after 3 seconds
+</script>
+
+</html>

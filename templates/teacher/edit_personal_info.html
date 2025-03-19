@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Personal Information</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #5f6e96;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #5f6e96;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background-color: #1e40af;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 30px;
+            left: 90px;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-left: -1cm; /* Move the brand 1cm to the left */
+        }
+
+        .navbar-brand span:first-child {
+            color: #0c447b; /* Dark blue for "Online" */
+        }
+        .navbar-brand span:last-child {
+            color: #4a90e2; /* Light blue for "Ex" */
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-brand">
+            <span>Online</span><span>Ex</span>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Edit Personal Information</h2>
+
+        <form id="personal-info-form" method="POST" action="/teacher/edit_personal_info">
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" value="{{ teacher_data.full_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label> 
+                <input type="email" id="email" name="email" placeholder="Enter your email" value="{{ teacher_data.email }}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" value="{{ teacher_data.phone }}" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" value="{{ teacher_data.address }}" required>
+            </div>
+            <button type="submit" class="save-btn">Save</button>
+        </form>
+    </div>
+
+    <script>
+            // Get the input values
+            const fullName = document.getElementById("full-name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const address = document.getElementById("address").value.trim();
+
+            if (fullName && email && phone && address) {
+                // You can also show a notification or redirect to another page
+                alert("Personal Information updated successfully!");
+                window.location.href = "/teacher/tr_profile"; // Redirect back to profile page after saving
+            } else {
+                alert("Please fill in all fields.");
+            }
+    </script>
+</body>
+
+</html>

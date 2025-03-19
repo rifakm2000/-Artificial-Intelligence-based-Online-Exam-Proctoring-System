@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Examination</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --text-light: #ecf0f1;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Enhanced Header */
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 0 2rem;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            height: 70px;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .branding span:first-child {
+            color: #0c447b;
+        }
+
+        .branding span:last-child {
+            color: #4a90e2;
+        }
+
+        .exam-title {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-left: 2rem;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Enhanced Question Content */
+        .content {
+            max-width: 900px;
+            padding: 0 20px;
+            margin: 2rem auto 2rem 0; /* Shift left */
+        }
+
+        .question {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .question input {
+            width: 98%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .question input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        /* Movable Elements */
+        .movable {
+            position: fixed;
+            cursor: move;
+            z-index: 1000;
+        }
+
+        /* Enhanced Webcam Monitor */
+        .webcam-monitor {
+            position: fixed;
+            top: 90px;
+            right: 120px;
+            width: 300px;
+            height: 200px;
+            border-radius: 8px;
+            background: #fff;
+            cursor: move;
+            z-index: 1000;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            left: 970px;
+        }
+
+        #webcam {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .webcam-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 5px 8px;
+        }
+
+        .webcam-controls i {
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .webcam-controls i:hover {
+            color: #ddd;
+        }
+
+        /* Enhanced Calculator */
+        #calculator {
+            width: 252px;
+            height: 300px;
+            position: fixed;
+            top: 320px;
+            right: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+            z-index: 1000;
+        }
+
+        #calculator-header {
+            background-color: #404440;
+            color: white;
+            padding: 10px;
+            cursor: move;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            text-align: center;
+        }
+
+        #calculator-body {
+            padding: 20px;
+        }
+
+        #display {
+            width: 100%;
+            height: 30px;
+            font-size: 24px;
+            text-align: right;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            width: 35px;
+            height: 35px;
+            margin: 5px;
+            font-size: 20px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
+
+        .button:active {
+            background-color: #ccc;
+        }
+        /* Submit Button */
+        .submit-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            padding: 1rem 2rem;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .question textarea {
+            width: 98%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            resize: vertical; /* Allows vertical resizing */
+            transition: border-color 0.3s ease;
+        }
+        .question textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        /* Detection highlight overlay */
+        .detection-overlay {
+            position: absolute;
+            border: 2px solid red;
+            background-color: rgba(255, 0, 0, 0.2);
+            pointer-events: none;
+        }
+
+        /* Violation notification - professional styling */
+.violation-notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background-color: #f8f9fa;
+    color: #212529;
+    padding: 15px 20px;
+    border-radius: 8px;
+    z-index: 2000;
+    max-width: 320px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-left: 4px solid #dc3545;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: opacity 0.3s ease;
+    animation: notification-slide 0.3s ease-out;
+}
+
+.violation-notification .notification-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.violation-notification .notification-icon {
+    color: #dc3545;
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.violation-notification .notification-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+}
+
+.violation-notification .notification-content {
+    margin-bottom: 5px;
+}
+
+.violation-notification .notification-item {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: baseline;
+}
+
+.violation-notification .notification-item:before {
+    content: "•";
+    margin-right: 6px;
+    color: #6c757d;
+}
+
+.violation-notification .notification-detail {
+    font-size: 13px;
+    color: #6c757d;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+@keyframes notification-slide {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.question-image {
+            max-width: 100%;
+            height: auto;
+            margin: 16px 0;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Add this style for the custom modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .modal-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .modal-content button:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Add this modal to the body -->
+    <div id="fullscreen-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Full Screen Required</h2>
+            <p>Full screen mode is required for this exam. Please press the F11 key to enable full screen.</p>
+            <button id="fullscreen-ok-btn" disabled>OK</button>
+        </div>
+    </div>
+
+    <!-- Enhanced Header -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span>Exam</span><span>Portal</span>
+        </a>
+        <div class="exam-title">{{ exam_title }}</div>
+        <div class="timer">
+            <i class="fas fa-clock"></i>
+            <span id="timer">Time Remaining: {{ exam_duration }}</span>
+        </div>
+    </nav>
+
+    <!-- Webcam Monitor - Position set before access -->
+    <div class="webcam-monitor movable" id="webcam-monitor">
+        <video id="webcam" autoplay></video>
+        <div class="webcam-controls">
+            <i id="camera-toggle" class="fas fa-video" onclick="toggleCamera()"></i>
+        </div>
+    </div>
+
+    <!-- Questions Content -->
+    <div class="content" style="display: none;">
+        {% for question in questions %}
+        <div class="question">
+            <h3>{{ loop.index }}. {{ question.question_text }}</h3>
+            {% if question.question_image %}
+            <img src="data:image/jpeg;base64,{{ question.question_image | b64encode }}" alt="Question Image" class="question-image">
+            {% endif %}
+            <p><strong>Marks:</strong> {{ question.marks }}</p>
+            {% if question.options %}
+            <p><strong>Options:</strong> {{ question.options }}</p>
+            {% endif %}
+            <textarea placeholder="Your answer" data-question-id="{{ question.question_id }}"></textarea>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Scientific Calculator -->
+    <div id="calculator" class="movable">
+        <div id="calculator-header">Scientific Calculator</div>
+        <div id="calculator-body">
+            <input type="text" id="display" disabled>
+            <div>
+                <button class="button" onclick="appendToDisplay('7')">7</button>
+                <button class="button" onclick="appendToDisplay('8')">8</button>
+                <button class="button" onclick="appendToDisplay('9')">9</button>
+                <button class="button" onclick="appendToDisplay('/')">/</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('4')">4</button>
+                <button class="button" onclick="appendToDisplay('5')">5</button>
+                <button class="button" onclick="appendToDisplay('6')">6</button>
+                <button class="button" onclick="appendToDisplay('*')">*</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('1')">1</button>
+                <button class="button" onclick="appendToDisplay('2')">2</button>
+                <button class="button" onclick="appendToDisplay('3')">3</button>
+                <button class="button" onclick="appendToDisplay('-')">-</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('0')">0</button>
+                <button class="button" onclick="appendToDisplay('.')">.</button>
+                <button class="button" onclick="appendToDisplay('+')">+</button>
+                <button class="button" onclick="calculateResult()">=</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('sin(')">sin</button>
+                <button class="button" onclick="appendToDisplay('cos(')">cos</button>
+                <button class="button" onclick="appendToDisplay('tan(')">tan</button>
+                <button class="button" onclick="appendToDisplay('sqrt(')">√</button>
+            </div>
+            <div>
+                <button class="button" onclick="clearDisplay()">C</button>
+                <button class="button" onclick="appendToDisplay('(')">(</button>
+                <button class="button" onclick="appendToDisplay(')')">)</button>
+                <button class="button" onclick="appendToDisplay('Math.PI')">π</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button class="submit-btn">Submit Exam</button>
+
+    <script>
+        // Add this script to handle the modal and F11 functionality
+        document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('fullscreen-modal');
+        const okBtn = document.getElementById('fullscreen-ok-btn');
+        const content = document.querySelector('.content');
+        
+        // Show the modal when the page loads
+        modal.style.display = 'flex';
+        
+        // Track if F11 has been pressed
+        let f11Pressed = false;
+        
+        // Add event listener for F11 key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F11' && !f11Pressed) {
+                e.preventDefault(); // Prevent default full-screen behavior
+                
+                // Enable the OK button
+                okBtn.disabled = false;
+                
+                // Mark F11 as pressed
+                f11Pressed = true;
+                
+                // Disable F11 key for future use
+                document.addEventListener('keydown', function disableF11(e) {
+                    if (e.key === 'F11') {
+                        e.preventDefault();
+                    }
+                }, false);
+            }
+        });
+    
+    // Handle OK button click
+    okBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            
+            // Enter full-screen mode programmatically
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+            
+            // Now start the exam process - only after clicking OK
+            startWebcam();
+            startTimer(); // This will now only be called after clicking OK
+            
+            // Show content
+            content.style.display = 'block';
+        });
+    });
+
+// Make elements movable
+document.addEventListener('DOMContentLoaded', function() {
+    makeElementMovable(document.getElementById('webcam-monitor'));
+    makeElementMovable(document.getElementById('calculator'));
+});
+
+function makeElementMovable(element) {
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    
+    // Get the header to use as a handle if it exists, otherwise use the element itself
+    const handle = element.querySelector('[id$="-header"]') || element;
+    
+    handle.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // Get the mouse cursor position at startup
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // Call a function whenever the cursor moves
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // Calculate the new cursor position
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // Set the element's new position
+        element.style.top = (element.offsetTop - pos2) + "px";
+        element.style.left = (element.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // Stop moving when mouse button is released
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+
+// Calculator functions
+function appendToDisplay(value) {
+    document.getElementById('display').value += value;
+}
+
+function clearDisplay() {
+    document.getElementById('display').value = '';
+}
+
+function calculateResult() {
+    try {
+        // Using Function constructor for calculation (note: this is generally not recommended for production due to security concerns)
+        const expression = document.getElementById('display').value
+            .replace(/sin\(/g, 'Math.sin(')
+            .replace(/cos\(/g, 'Math.cos(')
+            .replace(/tan\(/g, 'Math.tan(')
+            .replace(/sqrt\(/g, 'Math.sqrt(')
+            .replace(/pi/g, 'Math.PI');
+        
+        const result = Function('"use strict";return (' + expression + ')')();
+        document.getElementById('display').value = result;
+    } catch (error) {
+        document.getElementById('display').value = 'Error';
+    }
+}
+
+// Constants for exam
+const video = document.getElementById('webcam');
+const webcamMonitor = document.getElementById('webcam-monitor');
+const timerElement = document.getElementById('timer');
+const cameraToggle = document.getElementById('camera-toggle');
+
+let timerInterval;
+let timeRemaining = '{{ exam_duration * 60 }}'; // Convert hours to seconds
+let stream;
+let isCameraOn = true;
+const examId = '{{ exam_id|tojson }}';
+const userId = '{{ session.user_id|tojson }}';
+let frameInterval;
+
+// Constants for violation detection
+const VIOLATION_THRESHOLD = 5; // Number of frames before triggering a violation
+const FRAME_CAPTURE_RATE = 2000; // Capture a frame every 1000ms (1 second)
+
+// Create canvas for processing
+let canvas = document.createElement('canvas');
+let ctx = canvas.getContext('2d');
+
+// Add this function to compare current face with stored embedding
+async function compareWithStoredEmbedding() {
+        try {
+            const storedEmbedding = localStorage.getItem('verifiedFaceEmbedding');
+            if (!storedEmbedding) {
+                console.log('No stored verified face embedding');
+                return;
+            }
+
+            // Create canvas to capture current webcam image
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Convert to data URL
+            const currentImageData = canvas.toDataURL('image/jpeg', 0.9);
+
+            // Compare with stored embedding
+            const response = await fetch('/verify_faces', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    webcam_image: currentImageData,
+                    reference_embedding: storedEmbedding
+                })
+            });
+
+            if (!response.ok) {
+                console.error(`HTTP error! status: ${response.status}`);
+                return;
+            }
+
+            const result = await response.json();
+            console.log('Verification result:', result);
+
+            if (result.status === 'success' && result.similarity < 0.6) {
+    // Create canvas to capture current webcam image
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Convert to data URL
+    const currentImageData = canvas.toDataURL('image/jpeg', 0.9);
+    
+    // Handle the violation
+    const violations = ['Unauthorized person detected'];
+    const details = {
+        face_count: 1, // Assuming the unauthorized person is detected as a face
+        objects: [] // No objects detected in this case
+    };
+    
+    // Create violation notification
+    handleViolations(violations, currentImageData, details);
+    
+    // Log the violation to the server with image
+    logViolationWithImage('Unauthorized person detected', currentImageData);
+}
+        } catch (error) {
+            console.error('Comparison error:', error);
+        }
+    }
+
+    function logViolationWithImage(violationType, image) {
+    fetch('/process_frame', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            exam_id: examId,
+            user_id: userId,
+            image: image,
+            violation_type: violationType
+        })
+    }).catch(error => {
+        console.error('Error logging violation with image:', error);
+    });
+}
+
+    // Modify the frame processing function to include comparison
+    async function captureAndProcessFrame() {
+        try {
+            if (!video.videoWidth) return; // Skip if video not ready
+
+            // Set canvas size to match video dimensions
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Draw video frame to canvas
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Get image data for upload
+            const imageData = canvas.toDataURL('image/jpeg', 0.8);
+            
+            // Send frame for server-side processing and violation detection
+            const response = await fetch('/process_frame', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exam_id: examId,
+                    user_id: userId,
+                    image: imageData,
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                
+                // Handle violations returned from server
+                if (result.violations && result.violations.length > 0) {
+                    handleViolations(result.violations, result.violation_image, result.details);
+                }
+            }
+
+            // Compare with stored embedding for unauthorized person detection
+            compareWithStoredEmbedding();
+        } catch (error) {
+            console.error('Frame processing error:', error);
+        }
+    }
+
+// Add this global variable to track violation count
+let violationCount = 0;
+
+// Modify the handleViolations function to count violations
+function handleViolations(violations, violationImage, details) {
+    if (!violations || violations.length === 0) return;
+    
+    // Increment violation count
+    violationCount++;
+    
+    // Create violation notification
+    const notification = document.createElement('div');
+    notification.className = 'violation-notification';
+    
+    // Create notification structure
+    let notificationHTML = `
+        <div class="notification-header">
+            <span class="notification-icon"><i class="fas fa-exclamation-triangle"></i></span>
+            <h4 class="notification-title">Proctoring Alert</h4>
+        </div>
+        <div class="notification-content">`;
+    
+    // Add violation details
+    violations.forEach(v => {
+        notificationHTML += `<div class="notification-item">${v}</div>`;
+    });
+    
+    // Add violation count information
+    notificationHTML += `<div class="notification-item">Violation ${violationCount} of 5</div>`;
+    
+    notificationHTML += `</div>`;
+    
+    // Add additional details if available
+    if (details && details.objects && details.objects.length > 0) {
+        notificationHTML += `<div class="notification-detail"><strong>Detection Details:</strong>`;
+        details.objects.forEach(obj => {
+            notificationHTML += `<div class="notification-item">${obj.name} (${(obj.confidence * 100).toFixed(1)}% confidence)</div>`;
+        });
+        notificationHTML += `</div>`;
+    }
+
+    // Add gaze details if available
+    if (details && details.gaze) {
+        notificationHTML += `<div class="notification-detail">
+            <strong>Gaze Direction:</strong> ${details.gaze}
+        </div>`;
+    }
+
+    // Add head position details if available
+    if (details && details.head_position) {
+        notificationHTML += `<div class="notification-detail">
+            <strong>Head Position:</strong> ${details.head_position}
+        </div>`;
+    }
+    
+    notification.innerHTML = notificationHTML;
+    
+    // Add to document
+    document.body.appendChild(notification);
+    
+    // Remove after 5 seconds with fade effect
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 100);
+    }, 900);
+    
+    // Play alert sound if available
+    try {
+        const alertSound = new Audio('/static/alert.mp3');
+        alertSound.play();
+    } catch (e) {
+        console.log('Alert sound not available');
+    }
+    
+    // Check if violation threshold reached - immediately submit
+    if (violationCount >= 5) {
+        // Submit exam immediately
+        submitExam();
+    }
+}
+
+// Modified startWebcam function with proctoring
+async function startWebcam() {
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { width: 640, height: 480 }
+        });
+        video.srcObject = stream;
+        
+        // Wait for video to be ready
+        video.onloadedmetadata = () => {
+            // Start frame capture and processing
+            frameInterval = setInterval(captureAndProcessFrame, FRAME_CAPTURE_RATE);
+        };
+    } catch (error) {
+        console.error("Webcam error:", error);
+        alert("Camera access required for exam participation! Please enable your camera and reload the page.");
+        
+        // Hide all elements except error
+        document.querySelector('.content').style.display = 'none';
+        document.querySelector('.navbar').style.display = 'none';
+        document.getElementById('webcam-monitor').style.display = 'none';
+        document.getElementById('calculator').style.display = 'none';
+        document.querySelector('.submit-btn').style.display = 'none';
+        
+        // Log violation
+        logViolation('webcam_access_denied', 'Student denied camera access');
+    }
+}
+
+// Timer function with improved sessionStorage (user-specific)
+function startTimer() {
+    // Create a unique key that includes both exam ID and user ID
+    const timeRemainingKey = `examTimeRemaining_${examId}_${userId}`;
+    const lastUpdateKey = `examLastUpdate_${examId}_${userId}`;
+    
+    // Check if we have stored time remaining in sessionStorage for THIS USER
+    const storedTimeRemaining = sessionStorage.getItem(timeRemainingKey);
+    
+    if (storedTimeRemaining) {
+        // Use the stored time remaining for this specific user
+        timeRemaining = parseInt(storedTimeRemaining);
+    } else {
+        // No stored time for this user, use the initial value from the server
+        timeRemaining = parseInt('{{ exam_duration * 60 }}'); // Convert hours to seconds
+    }
+    
+    // Store the last update timestamp
+    const lastUpdateTime = Date.now();
+    sessionStorage.setItem(lastUpdateKey, lastUpdateTime.toString());
+    
+    timerInterval = setInterval(() => {
+        // Calculate actual elapsed time since last update to handle tab inactivity
+        const currentTime = Date.now();
+        const lastUpdate = parseInt(sessionStorage.getItem(lastUpdateKey));
+        const elapsedSeconds = Math.floor((currentTime - lastUpdate) / 1000);
+        
+        // If more than 1 second has passed (tab was inactive or slow processing)
+        if (elapsedSeconds > 1) {
+            timeRemaining = Math.max(0, timeRemaining - elapsedSeconds);
+        } else {
+            timeRemaining = Math.max(0, timeRemaining - 1);
+        }
+        
+        // Update the last update time
+        sessionStorage.setItem(lastUpdateKey, currentTime.toString());
+        
+        // Store the current remaining time
+        sessionStorage.setItem(timeRemainingKey, timeRemaining.toString());
+        
+        // Update display
+        const hours = Math.floor(timeRemaining / 3600);
+        const minutes = Math.floor((timeRemaining % 3600) / 60);
+        const seconds = timeRemaining % 60;
+        
+        timerElement.textContent = `Time: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            // Clean up THIS USER'S session storage keys specifically
+            sessionStorage.removeItem(timeRemainingKey);
+            sessionStorage.removeItem(lastUpdateKey);
+            alert("Time's up! Your exam will be submitted now.");
+            submitExam();
+        }
+    }, 1000);
+    
+    // Add event listener to handle page unload/refresh
+    window.addEventListener('beforeunload', function() {
+        // Make sure we save the latest time for THIS USER
+        sessionStorage.setItem(timeRemainingKey, timeRemaining.toString());
+    });
+}
+
+// Log violation to server
+function logViolation(violationType, details) {
+    // Increment violation count
+    violationCount++;
+    
+    // Display a notification about the violation
+    const notification = document.createElement('div');
+    notification.className = 'violation-notification';
+    notification.innerHTML = `
+        <div class="notification-header">
+            <span class="notification-icon"><i class="fas fa-exclamation-triangle"></i></span>
+            <h4 class="notification-title">Proctoring Alert</h4>
+        </div>
+        <div class="notification-content">
+            <div class="notification-item">${violationType.replace('_', ' ').toUpperCase()}</div>
+            <div class="notification-item">Violation ${violationCount} of 5</div>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    // Remove after a short period with fade effect
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 100);
+    }, 900);
+    
+    // Check if violation threshold reached - immediately submit
+    if (violationCount >= 5) {
+        // Submit exam immediately without warning
+        submitExam();
+    }
+    
+    // Send violation data to server
+    fetch('/log_violation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            exam_id: examId,
+            user_id: userId,
+            violation_type: violationType,
+            details: details,
+            violation_count: violationCount
+        })
+    }).catch(error => {
+        console.error('Error logging violation:', error);
+    });
+}
+
+// Toggle controls
+function toggleCamera() {
+    if(stream) {
+        isCameraOn = !isCameraOn;
+        stream.getVideoTracks().forEach(track => track.enabled = isCameraOn);
+        cameraToggle.classList.toggle('fa-video-slash', !isCameraOn);
+        
+        // Log camera toggle as potential violation
+        if (!isCameraOn) {
+            logViolation('camera_disabled', 'Student disabled camera during exam');
+        }
+    }
+}
+
+// Modify the submit function to also clear the user-specific storage
+async function submitExam() {
+    try {
+        // Clean up THIS USER'S session storage keys
+        sessionStorage.removeItem(`examTimeRemaining_${examId}_${userId}`);
+        sessionStorage.removeItem(`examLastUpdate_${examId}_${userId}`);
+        
+        // Stop monitoring
+        if (frameInterval) {
+            clearInterval(frameInterval);
+        }
+        
+        // Stop timer
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+        
+        // Collect all answers
+        const answers = Array.from(document.querySelectorAll('.question textarea')).map(textarea => ({
+            question_id: textarea.dataset.questionId,
+            answer: textarea.value.trim()
+        }));
+
+        // Submit the exam data
+        const response = await fetch('/submit_exam', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                exam_id: examId, 
+                answers,
+                proctoring_complete: true,
+                violation_count: violationCount
+            })
+        });
+
+        if (response.ok) {
+            // Show success notification
+            alert('Exam submitted successfully!');
+            
+            // Stop media streams and redirect after confirmation
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            window.location.href = '/studash';
+        } else {
+            const error = await response.json();
+            alert('Submission failed: ' + (error.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Submission error:', error);
+        // Even if there's an exception, force redirect to dashboard
+        window.location.href = '/studash';
+    }
+}
+
+// Add window visibility change monitoring (tab switching)
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+    }
+});
+
+// Initialize everything when document is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize webcam monitor position
+    const webcamMonitor = document.getElementById('webcam-monitor');
+    webcamMonitor.style.top = '90px';
+    webcamMonitor.style.right = '120px';
+    webcamMonitor.style.width = '300px';
+    webcamMonitor.style.height = '200px';
+
+    // Make elements movable
+    makeElementMovable(document.getElementById('webcam-monitor'));
+    makeElementMovable(document.getElementById('calculator'));
+
+    // Note: We're no longer automatically starting webcam and timer here
+    // They will only start after clicking the OK button in the modal
+
+    // Add event listener to the submit button
+    document.querySelector('.submit-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        submitExam();
+    });
+
+    // Silently disable cut, copy, and paste without notifications or violations
+    document.addEventListener('cut', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('copy', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('paste', function(e) {
+        e.preventDefault();
+    });
+
+    // Silently disable right-click without notification or violation
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // Detect and prevent various keyboard shortcuts including refresh
+    document.addEventListener('keydown', function(e) {
+        // Prevent PrintScreen and Ctrl+P (print)
+        if (e.key === 'PrintScreen' || (e.ctrlKey && e.key === 'p')) {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Prevent F5 and Ctrl+R (refresh)
+        if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Prevent other navigation shortcuts
+        if (
+            (e.altKey && e.key === 'Tab') || 
+            e.key === 'F11' ||
+            e.key === 'Escape' ||
+            e.key === 'Meta' ||  // Windows key/Command key
+            (e.altKey && e.key === 'F4')
+        ) {
+            e.preventDefault();
+            return false;
+        }
+    });
+});
+
+// Function to enter full screen
+function enterFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+        elem.msRequestFullscreen();
+    }
+}
+
+// Function to check if browser is in full screen mode
+function isFullScreen() {
+    return !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+    );
+}
+
+// Monitor for full screen change events
+document.addEventListener('fullscreenchange', handleFullScreenChange);
+document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
+document.addEventListener('mozfullscreenchange', handleFullScreenChange);
+document.addEventListener('MSFullscreenChange', handleFullScreenChange);
+
+// Handle full screen exit attempts
+// Handle full screen exit attempts
+function handleFullScreenChange() {
+    if (!isFullScreen()) {
+        // Log violation when student exits full screen
+        logViolation('fullscreen_exit', 'Student exited full screen mode during exam');
+        
+        // Automatically submit the exam without confirmation
+        submitExam();
+        
+        // No need to re-enter full screen since we're submitting and redirecting
+    }
+}
+    </script>
+</body>
+
+</html>

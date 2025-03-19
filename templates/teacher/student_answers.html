@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluation Interface | Teacher View</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+        --primary: #2563eb;
+        --secondary: #1e40af;
+        --surface: #ffffff;
+        --background: #f8fafc;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 40px 0;
+        background: var(--background);
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: var(--surface);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary);
+        font-weight: 500;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: all 0.2s;
+        margin-bottom: 32px;
+    }
+
+    .back-link:hover {
+        background: #eff6ff;
+        transform: translateX(-4px);
+    }
+
+    h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 32px;
+        position: relative;
+        padding-bottom: 16px;
+    }
+
+    h1::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+
+    .question {
+        margin: 24px 0;
+        padding: 24px;
+        background: var(--background);
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        position: relative;
+    }
+
+    .question-image {
+            max-width: 100%;
+            height: auto;
+            margin: 16px 0;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+    .question-number {
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        background: var(--primary);
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .grading-section {
+        border-top: 2px solid #e2e8f0;
+        margin-top: 24px;
+        padding-top: 24px;
+    }
+
+    .input-group {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        margin-top: 16px;
+    }
+
+    .input-field {
+        flex: 1;
+        max-width: 200px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        color: #64748b;
+        margin-bottom: 4px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+    input:focus, select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px #bfdbfe;
+        outline: none;
+    }
+
+    .submit-btn {
+        background: #1a365d;
+        color: white;
+        padding: 12px 32px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 40px;
+        width: auto;
+    }
+
+    .submit-btn:hover {
+        background: #4299e1;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .exam-status-section {
+        background: #f1f5f9;
+        padding: 24px;
+        border-radius: 8px;
+        margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form method="POST" action="{{ url_for('submit_marks') }}">
+      <a href="{{ url_for('teacher_result') }}" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to Results
+      </a>
+      <h1>Evaluation: {{ fullname }} | {{ exam_title }}</h1>
+
+      {% for answer in answers %}
+      <div class="question">
+        <div class="question-number">{{ loop.index }}</div>
+        <h3>{{ answer.marks }} Mark{{ 's' if answer.marks > 1 }}</h3>
+        <p>{{ answer.question_text }}</p>
+        {% if answer.question_image %}
+        <img src="data:image/jpeg;base64,{{ answer.question_image }}" class="question-image">
+        {% endif %}
+        {% if answer.options %}
+        <div class="options"><strong>Options:</strong> {{ answer.options }}</div>
+        {% endif %}
+        <div class="answer-highlight">Student Answer: {{ answer.answer }}</div>
+
+        <div class="grading-section">
+          <div class="input-group">
+            
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <div class="exam-status-section">
+        <div class="input-group">
+          <div class="input-field">
+            <label for="overall-status">Exam Status</label>
+            <select id="overall-status" name="overall-status" required>
+              <option value="passed">Passed</option>
+              <option value="failed">Failed</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <label for="overall-mark">Total Marks</label>
+            <input type="number" id="overall-mark" 
+                   name="overall-mark" 
+                   min="0" step="1" required>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" name="answer_id" value="{{ request.args.get('answer_id') }}">
+      <button type="submit" class="submit-btn">Finalize Evaluation</button>
+    </form>
+  </div>
+</body>
+</html>

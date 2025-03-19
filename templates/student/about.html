@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Online Proctoring System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2A4365;
+            --secondary-color: #4299E1;
+            --accent-color: #48BB78;
+            --text-color: #4A5568;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #F7FAFC;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navbar-brand span:first-child {
+            color: var(--primary-color);
+        }
+
+        .navbar-brand span:last-child {
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 0 2rem;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .mission-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid #E2E8F0;
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 80px;
+                padding: 0 1rem;
+            }
+            
+            .about-header h1 {
+                font-size: 2rem;
+            }
+            
+            .mission-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span>Online</span><span>Ex</span>
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="about-header">
+            <h1>Redefining Online Assessment Integrity</h1>
+            <p>Pioneering the future of secure digital examinations through advanced AI proctoring solutions</p>
+        </div>
+
+        <div class="mission-section">
+            <h2>Our Mission</h2>
+            <p>To empower educational institutions and certification bodies with robust, scalable, and intelligent proctoring solutions that ensure exam integrity while enhancing accessibility for learners worldwide.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-brain feature-icon"></i>
+                <h3>AI-Driven Monitoring</h3>
+                <p>Advanced algorithms for <span class="highlight">real-time face recognition</span> and <span class="highlight">behavior analysis</span></p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <h3>Multi-Layer Security</h3>
+                <p>Comprehensive protection against <span class="highlight">malpractice</span> with <span class="highlight">encrypted data transmission</span></p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h3>Scalable Infrastructure</h3>
+                <p>Cloud-based architecture supporting <span class="highlight">thousands of concurrent exams</span></p>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-eye feature-icon"></i>
+                <h3>Gaze Tracking</h3>
+                <p>Advanced visual monitoring with <span class="highlight">98.7% detection accuracy</span></p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-users feature-icon"></i>
+                <h3>Role-Based Access</h3>
+                <p>Customizable portals for <span class="highlight">administrators</span>, <span class="highlight">institutions</span>, and <span class="highlight">students</span></p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-lock feature-icon"></i>
+                <h3>Data Protection</h3>
+                <p>GDPR-compliant storage with <span class="highlight">end-to-end encryption</span></p>
+            </div>
+        </div>
+
+        <footer>
+            © 2025 Online Proctoring System. All rights reserved.<br>
+            Committed to Academic Integrity and Technological Excellence
+        </footer>
+    </div>
+</body>
+</html>

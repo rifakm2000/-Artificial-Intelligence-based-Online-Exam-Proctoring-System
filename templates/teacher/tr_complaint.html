@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Complaints | OnlineEx</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1a365d;
+            --accent-blue: #4299e1;
+            --light-bg: #f8fafc;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e2e8f0;
+            padding-top: 30px;
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            padding: 0 24px;
+            margin-bottom: 40px;
+        }
+
+        .navbar-brand span:first-child {
+            color: var(--primary-blue);
+        }
+
+        .navbar-brand span:last-child {
+            color: var(--accent-blue);
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 0 20px;
+        }
+
+        .profile img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e2e8f0;
+            transition: transform 0.2s ease;
+        }
+
+        .profile h3 {
+            margin: 16px 0 0;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .menu {
+            padding: 0 16px;
+        }
+
+        .menu-item {
+            padding: 14px 20px;
+            font-size: 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin: 4px 0;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: #ebf8ff;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .menu-item .icon {
+            font-size: 1.1rem;
+            margin-right: 12px;
+            width: 24px;
+        }
+
+        .content {
+            margin-left: 280px;
+            padding: 32px 40px;
+        }
+
+        .complaint-section {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .complaint-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 120px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .complaint-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .complaint-form button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .complaint-form button:hover {
+            background-color: var(--accent-blue);
+        }
+
+        .complaint-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .complaint-meta {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .complaint-text {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+.reply-badge {
+    background: #ebf8ff;
+    color: var(--primary-blue);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    width: 100%;
+    word-break: break-word;
+}
+
+        .status-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="navbar-brand">
+            <span></span><span></span>
+        </div>
+        
+        <div class="profile">
+            <a href="/teacher/tr_profile">
+                <img src="data:image/jpeg;base64,{{ profile_image }}" alt="Profile Picture">
+            </a>
+            <h3>{{ fullname }}</h3>
+        </div>
+
+        <div class="menu">
+            <a href="/teacher/trdash" class="menu-item">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>Dashboard
+            </a>
+            <a href="/teacher/tr_createxm" class="menu-item">
+                <span class="icon"><i class="fas fa-pencil-alt"></i></span>Create Exam
+            </a>
+            <a href="/teacher/tr_result" class="menu-item">
+                <span class="icon"><i class="fas fa-chart-bar"></i></span>Results
+            </a>
+            <a href="{{ url_for('change1_password') }}" class="menu-item">
+                <span class="icon"><i class="fas fa-lock"></i></span>Password Change
+            </a>
+            <a href="/teacher/tr_complaint" class="menu-item active">
+                <span class="icon"><i class="fas fa-comment-dots"></i></span>Support Center
+            </a>
+            <a href="/logout" class="menu-item">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Support Center</h1>
+        
+        <div class="complaint-section">
+            <h2>Submit New Query</h2>
+            <form class="complaint-form" action="/submit_teacher_complaint" method="POST">
+                <textarea 
+                    name="complaint_text" 
+                    placeholder="Describe your issue in detail..."
+                    required
+                ></textarea>
+                <input type="hidden" name="authority_id" value="{{ session.get('authority_id') }}">
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i> Submit Query
+                </button>
+            </form>
+        </div>
+
+        <div class="complaint-section">
+            <h2>Previous Inquiries</h2>
+            
+            {% if complaints %}
+                {% for complaint in complaints %}
+                <div class="complaint-card">
+                    <div class="complaint-meta">
+                        Submitted on {{ complaint['submission_date'] }}
+                        <span class="status-indicator status-{{ complaint['status'].lower() }}">
+                            {{ complaint['status'] }}
+                        </span>
+                    </div>
+                    <p class="complaint-text">{{ complaint['complaint_text'] }}</p>
+                    
+                    {% if complaint['reply_text'] %}
+                        <div class="reply-badge">
+                            <i class="fas fa-comment-check"></i>
+                            Official Response: {{ complaint['reply_text'] }}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox fa-2x"></i>
+                    <p>No support requests found</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(this.href.includes('logout')) {
+                    e.preventDefault();
+                    if(confirm('Are you sure you want to logout?')) {
+                        window.location.href = this.href;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

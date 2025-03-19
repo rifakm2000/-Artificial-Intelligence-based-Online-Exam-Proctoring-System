@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalize Examination - {{ exam_title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1a56db;
+            --secondary-blue: #e8f1fd;
+            --accent-blue: #3f83f8;
+            --dark-gray: #1f2937;
+            --medium-gray: #4b5563;
+            --light-gray: #f3f4f6;
+            --border-radius: 8px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-gray);
+            line-height: 1.6;
+            color: var(--dark-gray);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .navbar {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            color: #333;
+            letter-spacing: 1px;
+            text-decoration: none; /* Added to remove the underline */
+        }
+
+        .navbar-brand span {
+            color: #4a90e2;
+        }
+
+        .navbar-brand span:first-child {
+            color: #0c447b;
+        }
+
+        h2 {
+            color: var(--dark-gray);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--light-gray);
+            padding-bottom: 1rem;
+        }
+
+        .exam-info {
+            background: var(--secondary-blue);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .exam-info p {
+            margin: 0.8rem 0;
+            color: var(--medium-gray);
+        }
+
+        .question-block {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+
+        .question-number {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .submit-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            float: right;
+            margin-top: 2rem;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-blue);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+            
+            .navbar {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span></span><span></span>
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Finalize Examination: {{ exam_title }}</h2>
+        
+        <!-- Exam Details -->
+        <div class="exam-info">
+            <p><strong>Duration:</strong> {{ exam_duration }} minutes</p>
+            <p><strong>Rules & Guidelines:</strong> {{ exam_rules }}</p>
+            <p><strong>Scheduled Date:</strong> {{ exam_date }}</p>
+            <p><strong>Start Time:</strong> {{ exam_time }}</p>
+        </div>
+
+        <!-- Questions List -->
+        {% for question in questions %}
+        <div class="question-block">
+            <div class="question-number">Question {{ loop.index }} ({{ question.marks }} marks)</div>
+            <p>{{ question.question_text }}</p>
+            {% if question.question_image %}
+            <img src="data:image/jpeg;base64,{{ question.question_image }}" class="question-image" alt="Question Visual">
+            {% endif %}
+            {% if question.options %}
+            <div class="options">
+                <strong>Options:</strong>
+                <ul>
+                    {% for option in question.options.split(',') %}
+                    <li>{{ option }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <!-- Action Button -->
+        <button id="submitBtn" class="submit-btn">
+            Finalize & Publish Exam
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            window.location.href = "{{ url_for('exam_link', unique_id=exam_link) }}";
+        });
+    </script>
+</body>
+</html>

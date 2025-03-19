@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalize Exam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .container label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .container input,
+        .container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .container button {
+            padding: 10px 20px;
+            background-color: #1a365d;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container button:hover {
+            background-color: #4299e1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Finalize Exam</h2>
+        <form id="finalize-form" method="post" action="exam_link.html">
+            <label for="exam-name">Exam Name</label>
+            <input type="text" id="exam-name" name="exam-name" placeholder="Enter exam name" required>
+
+            <label for="exam-duration">Exam Duration (in minutes)</label>
+            <input type="number" id="exam-duration" name="exam-duration" placeholder="Enter duration" required>
+
+            <label for="exam-rules">Rules</label>
+            <textarea id="exam-rules" name="exam-rules" rows="4" placeholder="Enter exam rules"></textarea>
+
+            <button type="submit">Generate Exam Link</button>
+        </form>
+    </div>
+</body>
+
+</html>

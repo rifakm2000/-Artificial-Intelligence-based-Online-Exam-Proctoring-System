@@ -1,0 +1,349 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .profile-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background-color: #5f6e96;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .profile-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            margin-top: -7px;
+            object-fit: cover;
+        }
+
+        .profile-header h2 {
+            margin: 15px 0 5px;
+            font-size: 1.8rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+
+        .profile-header a {
+            text-decoration: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: #5f6e96;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            background-color: #5f6e96;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .modal-content button:hover {
+            background-color: #1e40af;
+        }
+
+        .close-modal {
+            background-color: #e53e3e;
+            margin-left: 10px;
+        }
+
+        .close-modal:hover {
+            background-color: #c53030;
+        }
+
+        .profile-body {
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-section {
+            flex: 1 1 calc(50% - 20px);
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #5f6e96;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .profile-section h3 svg {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            color: #5f6e96;
+        }
+
+        .profile-section p,
+        .profile-section ul {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .profile-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-section ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .profile-section ul li::before {
+            content: '\2022';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #5f6e96;
+            font-weight: bold;
+        }
+
+        .back-btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background-color: #5f6e96;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #3b4c83;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 24px;
+            left: 90px;
+        }
+
+
+    .navbar-brand {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-left: -1cm; /* Move the brand 1cm to the left */
+    }
+
+    .navbar-brand span:first-child {
+      color: #0c447b; /* Dark blue for "Online" */
+    }
+
+    .navbar-brand span:last-child {
+      color: #4a90e2; /* Light blue for "Ex" */
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-brand">
+            <span>Online</span><span>Xm</span>
+        </div>
+    </div>
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <a href="/teacher/edit_profile">
+                <img src="{% if profile_image %}data:image/jpeg;base64,{{ profile_image }}{% else %}https://via.placeholder.com/120{% endif %}" 
+                     alt="Profile Picture">
+            </a>
+            <h2 id="profile-name">{{ teacher_data.full_name }}</h2>
+        </div>
+
+        <!-- Edit Name Modal -->
+        <div id="edit-name-modal" class="modal">
+            <div class="modal-content">
+                <h3>Edit Name</h3>
+                <input type="text" id="name-input" placeholder="Enter your name" value="Jane Smith">
+                <button id="save-name-btn">Save</button>
+                <button class="close-modal" onclick="closeModal('edit-name-modal')">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Profile Body -->
+        <div class="profile-body">
+            <!-- Personal Information -->
+            <div class="profile-section">
+                <h3>
+                    Personal Information
+                    <svg xmlns="http://www.w3.org/2000/svg" class="edit-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" onclick="window.location.href='/teacher/edit_personal_info'">
+                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/>
+                    </svg>
+                </h3>
+                <p><strong>Email:</strong> {{ teacher_data.email }}</p>
+                <p><strong>Phone:</strong> {{ teacher_data.phone }}</p>
+                <p><strong>Address:</strong> {{ teacher_data.address }}</p>
+            </div>
+
+            <!-- Academic Background -->
+            <div class="profile-section">
+                <h3>
+                    Academic Background
+                    <svg xmlns="http://www.w3.org/2000/svg" class="edit-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" onclick="window.location.href='/teacher/academic'">
+                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z" />
+                    </svg>
+                </h3>
+            {% if academic_data %}
+                <p><strong>Degree:</strong> {{ academic_data.degree }}</p>
+                <p><strong>Specialization:</strong> {{ academic_data.specialization }}</p>
+                <p><strong>Years of Experience:</strong> {{ academic_data.year }}</p>
+            {% else %}
+                <p>No academic information provided yet.</p>
+            {% endif %}
+            </div>
+
+            <!-- Subjects Taught -->
+            <div class="profile-section">
+                <h3>
+                    Subjects Taught
+                    <svg xmlns="http://www.w3.org/2000/svg" class="edit-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" onclick="window.location.href='/teacher/edit_subjects'">
+                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z" />
+                    </svg>
+                </h3>
+                <ul>
+                    {% for subject in subjects %}
+                        <li>{{ subject }}</li>
+                    {% else %}
+                        <li>No subjects added</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Achievements -->
+            <div class="profile-section">
+                <h3>
+                    Achievements
+                    <svg xmlns="http://www.w3.org/2000/svg" class="edit-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" onclick="window.location.href='/teacher/edit_achievements'">
+                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z" />
+                    </svg>
+                </h3>
+                <ul>
+                    {% for achievement in achievements %}
+                        <li>{{ achievement }}</li>
+                    {% else %}
+                        <li>No achievements added</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="/teacher/trdash" class="back-btn" id="save-btn">Save</a>        
+        </div>
+    </div>
+
+    <script>
+        // Function to open a modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        // Function to close a modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Save name functionality
+        document.getElementById('save-name-btn').onclick = function () {
+            const nameInput = document.getElementById('name-input').value;
+            document.getElementById('profile-name').textContent = nameInput;
+            closeModal('edit-name-modal');
+        };
+
+        // Save description functionality
+        document.getElementById('save-description-btn').onclick = function () {
+            const descriptionInput = document.getElementById('description-input').value;
+            document.getElementById('profile-description').textContent = descriptionInput;
+            closeModal('edit-description-modal');
+        };
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.querySelector("#notification");
+            notification.textContent = message;
+            notification.style.display = "block";
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

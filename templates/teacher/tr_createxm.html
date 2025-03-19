@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Exam Creation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1a365d;
+            --accent-blue: #4299e1;
+            --light-bg: #f8fafc;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e2e8f0;
+            padding-top: 30px;
+        }
+
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            padding: 0 24px;
+            margin-bottom: 40px;
+        }
+
+        .navbar-brand span:first-child {
+            color: var(--primary-blue);
+        }
+
+        .navbar-brand span:last-child {
+            color: var(--accent-blue);
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 0 20px;
+        }
+
+        .profile img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e2e8f0;
+            transition: transform 0.2s ease;
+        }
+
+        .profile h3 {
+            margin: 16px 0 0;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .menu {
+            padding: 0 16px;
+        }
+
+        .menu-item {
+            padding: 14px 20px;
+            font-size: 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin: 4px 0;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: #ebf8ff;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .menu-item .icon {
+            font-size: 1.1rem;
+            margin-right: 12px;
+            width: 24px;
+        }
+
+        .content {
+            margin-left: 280px;
+            padding: 32px 40px;
+            max-width: 800px;
+        }
+
+        .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    letter-spacing: -0.5px;
+}
+
+.form-section {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+    border: 1px solid #e9ecef;
+}
+
+.form-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+    color: var(--primary-blue);
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e9ecef;
+    font-weight: 600;
+}
+
+.form-section label {
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.form-section input,
+.form-section textarea,
+.form-section select {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.form-section input:focus,
+.form-section textarea:focus,
+.form-section select:focus {
+    border-color: var(--accent-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.form-section button {
+    padding: 12px 28px;
+    background-color: var(--primary-blue);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-section button:hover {
+    background-color: var(--accent-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 2px solid #e9ecef;
+}
+
+.question-block {
+    margin-bottom: 32px;
+    padding: 24px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.question-number {
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--primary-blue);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+    padding-right: 40px;
+}
+
+.preview-image {
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    margin-top: 12px;
+}
+
+.fa-upload {
+    transition: color 0.2s ease;
+}
+
+.fa-upload:hover {
+    color: var(--accent-blue);
+}
+
+        .hidden {
+            display: none;
+        }
+
+        /* Style for question number */
+.question-number {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Style for marks input */
+.question-mark {
+    width: 60px;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="navbar-brand">
+            <span></span><span></span>
+        </div>
+        
+        <div class="profile">
+            <a href="/teacher/tr_profile">
+                <img src="data:image/jpeg;base64,{{ profile_image }}" alt="Profile Picture">
+            </a>
+            <h3>{{ fullname }}</h3>
+        </div>
+
+        <div class="menu">
+            <a href="/teacher/trdash" class="menu-item">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>Dashboard
+            </a>
+            <a href="/teacher/tr_createxm" class="menu-item  active">
+                <span class="icon"><i class="fas fa-pencil-alt"></i></span>Create Exam
+            </a>
+            <a href="/teacher/tr_result" class="menu-item">
+                <span class="icon"><i class="fas fa-chart-bar"></i></span>Results
+            </a>
+            <a href="{{ url_for('change1_password') }}" class="menu-item">
+                <span class="icon"><i class="fas fa-lock"></i></span>Password Change
+            </a>
+            <a href="/teacher/tr_complaint" class="menu-item">
+                <span class="icon"><i class="fas fa-comment-dots"></i></span>Support Center
+            </a>
+            <a href="/logout" class="menu-item">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="navbar">
+            <h2>Create Exam</h2>
+        </div>
+
+        <div class="form-section">
+            <h3>Exam Details</h3>
+            <form id="exam-form" action="/teacher/tr_createxm" method="post" enctype="multipart/form-data">
+                <label for="exam-title">Exam Title</label>
+                <input type="text" id="exam-title" name="exam-title" placeholder="Enter exam title" required>
+
+                <label for="exam-type">Exam Type</label>
+                <select id="exam-type" name="exam-type">
+                    <option value="">Select Type</option>
+                    <option value="subjective">Subjective</option>
+                    <option value="objective">Objective</option>
+                </select>
+
+                <!-- Objective Fields -->
+<div id="objective-fields" class="hidden">
+    <div class="question-block">
+        <div class="question-number">Question 1</div>
+        <div style="position: relative; display: flex; align-items: center;">
+            <textarea name="questions[]" rows="4" placeholder="Enter question text here"></textarea>
+            <label for="upload-image-obj-1" style="cursor: pointer; position: absolute; bottom: 10px; right: 10px;">
+                <i class="fas fa-upload" style="font-size: 20px; color: #0f1010;"></i>
+            </label>
+            <input type="file" name="upload-image-obj-1" id="upload-image-obj-1" accept="image/*" style="display: none;" onchange="previewImage(this)">
+        </div>
+        <label>Marks: <input type="number" name="obj-marks[]" class="question-mark" placeholder="Enter marks"></label>
+        <label for="options">Options</label>
+        <textarea name="options[]" rows="3" placeholder="Enter options, press Enter for each"></textarea>
+    </div>
+</div>
+
+<!-- Subjective Fields -->
+<div id="subjective-fields" class="hidden">
+    <div class="question-block">
+        <div class="question-number">Question 1</div>
+        <div style="position: relative; display: flex; align-items: center;">
+            <textarea name="subj-questions[]" rows="4" placeholder="Enter question text here"></textarea>
+            <label for="upload-image-subj-1" style="cursor: pointer; position: absolute; bottom: 10px; right: 10px;">
+                <i class="fas fa-upload" style="font-size: 20px; color: #0f1010;"></i>
+            </label>
+            <input type="file" name="upload-image-subj-1" id="upload-image-subj-1" accept="image/*" style="display: none;" onchange="previewImage(this)">
+        </div>
+        <label>Marks: <input type="number" name="subj-marks[]" class="question-mark" placeholder="Enter marks"></label>
+    </div>
+</div>
+
+                <div class="form-footer">
+                    <button type="button" id="add-question">Add</button>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        // First, fix the JavaScript for adding new questions
+document.addEventListener("DOMContentLoaded", function () {
+    const examType = document.getElementById("exam-type");
+    const objectiveFields = document.getElementById("objective-fields");
+    const subjectiveFields = document.getElementById("subjective-fields");
+    const addQuestionBtn = document.getElementById("add-question");
+    let questionNumber = 1; // Start with Question 1
+
+            // Show/hide question fields based on exam type
+    examType.addEventListener("change", () => {
+        if (examType.value === "objective") {
+            objectiveFields.classList.remove("hidden");
+            subjectiveFields.classList.add("hidden");
+        } else if (examType.value === "subjective") {
+            subjectiveFields.classList.remove("hidden");
+            objectiveFields.classList.add("hidden");
+        } else {
+            objectiveFields.classList.add("hidden");
+            subjectiveFields.classList.add("hidden");
+        }
+    });
+
+            // Function to add new question fields dynamically
+    addQuestionBtn.addEventListener("click", function () {
+        if (!examType.value) {
+            alert("Please select an exam type first.");
+            return;
+        }
+
+        const isObjective = examType.value === "objective";
+        const container = isObjective ? objectiveFields : subjectiveFields;
+
+    // Increment question number
+    questionNumber++;
+
+    // Unique ID for the file input
+    const fileInputId = `upload-image-${isObjective ? 'obj' : 'subj'}-${questionNumber}`;
+        
+    // Create a new question block
+    const newQuestionBlock = document.createElement("div");
+        newQuestionBlock.className = "question-block";
+        newQuestionBlock.innerHTML = `
+            <div class="question-number">Question ${questionNumber}</div>
+            <div style="position: relative; display: flex; align-items: center;">
+                <textarea name="${isObjective ? 'questions[]' : 'subj-questions[]'}" rows="4" placeholder="Enter question text here"></textarea>
+                <label for="${fileInputId}" style="cursor: pointer; position: absolute; bottom: 10px; right: 10px;">
+                    <i class="fas fa-upload" style="font-size: 20px; color: #0f1010;"></i>
+                </label>
+                <input type="file" id="${fileInputId}" name="${fileInputId}" accept="image/*" style="display: none;">
+            </div>
+            <label>Marks: <input type="number" name="${isObjective ? 'obj-marks[]' : 'subj-marks[]'}" class="question-mark" placeholder="Enter marks" required min="1"></label>
+            ${isObjective ? '<label for="options">Options</label><textarea name="options[]" rows="3" placeholder="Enter options, press Enter for each"></textarea>' : ''}
+        `;
+
+    // Append the new question block to the container
+    container.appendChild(newQuestionBlock);
+
+    // Attach event listener to newly added input field
+    document.getElementById(fileInputId).addEventListener("change", function () {
+            previewImage(this);
+        });
+    });
+});
+
+
+
+function previewImage(input) {
+    const parentDiv = input.closest(".question-block");
+    const textarea = parentDiv.querySelector("textarea");
+    const file = input.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            // Remove existing preview image (if any)
+            const existingImg = parentDiv.querySelector(".preview-image");
+            if (existingImg) {
+                existingImg.remove();
+            }
+
+            // Create new image element
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.className = "preview-image";
+            img.style.maxWidth = "100px";
+            img.style.maxHeight = "100px";
+            img.style.marginTop = "10px";
+
+            // Create a close button
+            const closeIcon = document.createElement("span");
+            closeIcon.innerHTML = "&times;";
+            closeIcon.style.position = "absolute";
+            closeIcon.style.top = "-10px";
+            closeIcon.style.right = "-10px";
+            closeIcon.style.cursor = "pointer";
+            closeIcon.style.color = "red";
+            closeIcon.style.backgroundColor = "white";
+            closeIcon.style.borderRadius = "50%";
+            closeIcon.style.padding = "2px 5px";
+            closeIcon.style.fontSize = "16px";
+            closeIcon.onclick = function () {
+                img.remove();
+                closeIcon.remove();
+                input.value = ""; // Clear the file input
+            };
+
+            // Create container for image & close button
+            const container = document.createElement("div");
+            container.style.position = "relative";
+            container.style.display = "inline-block";
+            container.appendChild(img);
+            container.appendChild(closeIcon);
+
+            // Insert the container after the textarea
+            textarea.insertAdjacentElement("afterend", container);
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+
+
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(this.href.includes('logout')) {
+                    e.preventDefault();
+                    if(confirm('Are you sure you want to logout?')) {
+                        window.location.href = this.href;
+                    }
+                }
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>

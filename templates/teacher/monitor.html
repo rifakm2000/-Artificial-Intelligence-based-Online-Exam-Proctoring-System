@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Monitoring Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-warning: #f1c40f;
+            --success-color: #27ae60;
+            --text-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 0 2rem;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            height: 2.2cm;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            color: #333;
+            letter-spacing: 1px;
+            text-decoration: none;
+            font-weight: bold;
+            gap: 1rem;
+        }
+
+        .navbar-brand span {
+            color: #4a90e2;
+        }
+
+        .navbar-brand span:first-child {
+            color: #0c447b;
+        }
+
+        .exam-title {
+            color: var(--text-light);
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-left: 1rem;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .main-container {
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .activity-log {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .log-header {
+            margin: 0 0 1rem 0;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .violations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .violations-table th, 
+        .violations-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .violations-table th {
+            background-color: #f1f5f9;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .violations-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-warn {
+            background-color: var(--accent-warning);
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .btn-warn:hover {
+            background-color: #f39c12;
+        }
+
+        .violation-severity-high {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .violation-severity-medium {
+            color: #f39c12;
+        }
+
+        .violation-severity-low {
+            color: #27ae60;
+        }
+        .back-arrow-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.back-arrow i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.back-arrow:hover {
+    color: #1a4d8c;
+}
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span></span><span></span>
+        </a>
+        <div class="exam-title">{{ exam_title }}</div>
+    
+    </nav>
+
+    <main class="main-container">
+        <section class="activity-log">
+            <h3 class="log-header">Violations Log</h3>
+            <table class="violations-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Violation Details</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="violations-table-body">
+                    {% if violations %}
+                        {% set unique_users = {} %}
+                        {% for violation in violations %}
+                            {% if violation.user_id not in unique_users %}
+                                <tr>
+                                    <td>{{ violation.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                    <td>{{ violation.student_name }}</td>
+                                    <td>{{ violation.email }}</td>
+                                    <td>
+                                        {% set user_violations = violations|selectattr('user_id', 'equalto', violation.user_id)|list %}
+                                        {{ user_violations|length }} unique violation(s)
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('view_violations', user_id=violation.user_id, exam_id=exam_id) }}" 
+                                           style="color: #4299e1; margin-right: 10px;">
+                                            View Details
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% set _ = unique_users.update({violation.user_id: true}) %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="5">No violations recorded for this exam</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <div class="back-arrow-container">
+        <a href="/teacher/trdash" class="back-arrow">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+</body>
+</html>

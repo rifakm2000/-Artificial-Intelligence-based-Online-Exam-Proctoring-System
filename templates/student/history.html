@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+        }
+
+        :root {
+    --primary-blue: #1a365d;
+    --accent-blue: #4299e1;
+    --light-bg: #f8fafc;
+    --text-dark: #2d3748;
+    --text-light: #718096;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.sidebar {
+    width: 280px;
+    background-color: #ffffff;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #e2e8f0;
+    padding-top: 30px;
+}
+
+.navbar-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    padding: 0 24px;
+    margin-bottom: 40px;
+}
+
+.navbar-brand span:first-child {
+    color: var(--primary-blue);
+}
+
+.navbar-brand span:last-child {
+    color: var(--accent-blue);
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 0 20px;
+}
+
+.profile img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e2e8f0;
+    transition: transform 0.2s ease;
+}
+
+.profile h3 {
+    margin: 16px 0 0;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.menu {
+    padding: 0 16px;
+}
+
+.menu-item {
+    padding: 14px 20px;
+    font-size: 15px;
+    color: var(--text-light);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin: 4px 0;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background-color: #ebf8ff;
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.menu-item .icon {
+    font-size: 1.1rem;
+    margin-right: 12px;
+    width: 24px;
+}
+
+.content {
+    margin-left: 280px;
+    padding: 32px 40px;
+}
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 300px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
+        .card p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #6b6b6b;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="navbar-brand">
+            <span></span><span></span>
+        </div>
+        
+        <div class="profile">
+            <a href="{{ url_for('edit_profile') }}">
+                <img src="data:image/jpeg;base64,{{ profile_image }}" alt="Profile">
+            </a>
+            <h3>{{ fullname }}</h3>
+        </div>
+    
+        <div class="menu">
+            <a href="{{ url_for('studash') }}" class="menu-item">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>Dashboard
+            </a>
+            <a href="{{ url_for('history') }}" class="menu-item active">
+                <span class="icon"><i class="fas fa-history"></i></span>Exam History
+            </a>
+            <a href="{{ url_for('stu_result') }}" class="menu-item">
+                <span class="icon"><i class="fas fa-chart-bar"></i></span>Results
+            </a>
+            <a href="{{ url_for('stu_complaint') }}" class="menu-item">
+                <span class="icon"><i class="fas fa-comment-dots"></i></span>Support Center
+            </a>
+            <a href="{{ url_for('logout') }}" class="menu-item">
+                <span class="icon"><i class="fas fa-sign-out-alt"></i></span>Logout
+                <span style="color: red; font-size: 12px; margin-left: 8px;">(Confirm before exiting)</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="navbar">
+            <h2>Exam History</h2>
+        </div>
+    
+        <div class="card-container">
+            <div class="card">
+                <span class="icon" style="font-size: 27px; color: rgb(82, 80, 80);">
+                    <i class="fas fa-clipboard-list"></i>
+                </span>
+                <h3>Mathematics</h3>
+                <p>Date: 2025-01-01</p>
+                <p>Score: 85%</p>
+            </div>
+            <div class="card">
+                <span class="icon" style="font-size: 27px; color: rgb(82, 80, 80);">
+                    <i class="fas fa-clipboard-list"></i>
+                </span>
+                <h3>Computer Networks</h3>
+                <p>Date: 2025-01-02</p>
+                <p>Score: 90%</p>
+            </div>
+            <div class="card">
+                <span class="icon" style="font-size: 27px; color: rgb(82, 80, 80);">
+                    <i class="fas fa-clipboard-list"></i>
+                </span>
+                <h3>Object-Oriented Programming</h3>
+                <p>Date: 2025-01-03</p>
+                <p>Score: 92%</p>
+            </div>
+            <div class="card">
+                <span class="icon" style="font-size: 27px; color: rgb(82, 80, 80);">
+                    <i class="fas fa-clipboard-list"></i>
+                </span>
+                <h3>Database Management Systems</h3>
+                <p>Date: 2025-01-04</p>
+                <p>Score: 88%</p>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(this.href.includes('logout')) {
+                    e.preventDefault();
+                    if(confirm('Are you sure you want to logout?')) {
+                        window.location.href = this.href;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

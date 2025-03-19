@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Exam Portal | Examination Link</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 680px;
+            width: 100%;
+            background: #ffffff;
+            padding: 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .container h2 {
+            margin: 0 0 25px 0;
+            font-size: 32px;
+            color: #1a1d24;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .container h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #4a90e2;
+            border-radius: 2px;
+        }
+
+        .exam-link-container {
+            margin: 30px 0;
+            padding: 18px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            border: 1px solid #e3e8f7;
+            position: relative;
+        }
+
+        .exam-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #2d68c4;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            word-break: break-all;
+            transition: color 0.2s ease;
+        }
+
+        .exam-link:hover {
+            color: #1a4d8c;
+        }
+
+        .exam-link i {
+            color: #4a90e2;
+            font-size: 20px;
+        }
+
+        .share-options {
+            margin-top: 35px;
+        }
+
+        .share-options p {
+            margin: 0 0 20px 0;
+            font-size: 15px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .share-button.email {
+            background: #4a67e2;
+            color: white;
+        }
+
+        .share-button.whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .share-button.twitter {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .share-button.copy {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .security-note {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            color: #333;
+            letter-spacing: 1px;
+            text-decoration: none; /* Added to remove the underline */
+        }
+
+        .navbar-brand span {
+            color: #4a90e2;
+        }
+
+        .navbar-brand span:first-child {
+            color: #0c447b;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 12px;
+            }
+            
+            .container h2 {
+                font-size: 24px;
+            }
+            
+            .exam-link {
+                font-size: 14px;
+            }
+        }
+
+        .back-arrow-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.back-arrow i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.back-arrow:hover {
+    color: #1a4d8c;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span></span><span></span>
+        </a>
+    </nav>
+    
+    <div class="container">
+        <h2>Secure Exam Access</h2>
+        <div class="exam-link-container">
+            <a href="{{ exam_link }}" target="_blank" class="exam-link">
+                <i class="fas fa-link"></i>
+                {{ exam_link }}
+            </a>
+        </div>
+        
+        <div class="share-options">
+            <p>Share Examination Access</p>
+            <div class="share-buttons">
+                <button class="share-button email" onclick="shareViaEmail()">
+                    <i class="fas fa-envelope"></i> Email
+                </button>
+                <button class="share-button whatsapp" onclick="shareViaWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </button>
+                <button class="share-button twitter" onclick="shareViaTwitter()">
+                    <i class="fab fa-twitter"></i> Twitter
+                </button>
+                <button class="share-button copy" onclick="copyLink()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
+        <p class="security-note">
+            <i class="fas fa-shield-alt"></i> This link contains sensitive information. 
+            Please share only with authorized participants.
+        </p>
+    </div>
+
+    <div class="back-arrow-container">
+        <a href="/teacher/trdash" class="back-arrow">
+            <i class="fas fa-arrow-left"></i>Back to Dashboard
+        </a>
+    </div>
+    
+
+    <script>
+        function shareViaEmail() {
+            const subject = "Exam Link";
+            const body = `Here is the link to the exam: ${window.location.href}`;
+            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function shareViaWhatsApp() {
+            const text = `Here is the link to the exam: ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function shareViaTwitter() {
+            const text = `Here is the link to the exam: ${window.location.href}`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function copyLink() {
+            const link = "{{ exam_link }}"; // Replace with the actual exam link
+            navigator.clipboard.writeText(link)
+                .then(() => {
+                    alert("Link copied to clipboard!");
+                })
+                .catch(() => {
+                    alert("Failed to copy link.");
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f9ff;
+        }
+
+        .header {
+            height: 1.5cm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #5f6e96;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .timer {
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 25cm;
+        }
+
+        .webcam-monitor {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 200px;
+            height: 150px;
+            border-radius: 8px;
+            background: #fff;
+            cursor: move;
+            z-index: 1000;
+        }
+
+        #webcam {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        .webcam-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .webcam-controls i {
+            font-size: 20px;
+            color: #090a0c;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .webcam-controls i:hover {
+            color: #181c1e;
+        }
+
+        .content {
+            margin: 100px 20px 20px;
+            display: none;
+        }
+
+        .question {
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .question h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #2b2b2b;
+        }
+
+        .question input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        #calculator {
+            width: 252px;
+            height: 300px;
+            position: fixed;
+            top: 170px;
+            right: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+            z-index: 1000;
+        }
+
+        #calculator-header {
+            background-color: #404440;
+            color: white;
+            padding: 10px;
+            cursor: move;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            text-align: center;
+        }
+
+        #calculator-body {
+            padding: 20px;
+        }
+
+        #display {
+            width: 100%;
+            height: 30px;
+            font-size: 24px;
+            text-align: right;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            width: 35px;
+            height: 35px;
+            margin: 5px;
+            font-size: 20px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
+
+        .button:active {
+            background-color: #ccc;
+        }
+
+        /* Styling for OnlineEx and Mathematics Exam */
+        .online-ex-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            font-size: 36px;
+            margin-top: 10px;
+        }
+
+        .online {
+            color: #0c447b;
+        }
+
+        .ex {
+            color: #4a90e2;
+        }
+
+        .exam-title {
+            text-align: left;
+            font-size: 24px;
+            color: #333;
+            margin-top: 15px;
+            font-weight: bold;
+            margin-left: 0.7cm;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="online-ex-title">
+            <span class="online">Online</span><span class="ex">Ex</span>
+            <div class="timer" id="timer">Time Remaining: Not Started</div>
+        </div>
+    </div>
+    <div class="exam-title">Mathematics Exam</div>
+
+
+    <div class="webcam-monitor" id="webcam-monitor">
+        <video id="webcam" autoplay></video>
+        <div class="webcam-controls">
+            <i id="camera-toggle" class="fas fa-video" onclick="toggleCamera()"></i>
+            <i id="mic-toggle" class="fas fa-microphone" onclick="toggleMic()"></i>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="question">
+            <h3>1. What is 2 + 2?</h3>
+            <input type="text" placeholder="Your answer">
+        </div>
+        <div class="question">
+            <h3>2. Solve for x: 3x + 5 = 20.</h3>
+            <input type="text" placeholder="Your answer">
+        </div>
+    </div>
+
+    <div id="calculator">
+        <div id="calculator-header">Scientific Calculator</div>
+        <div id="calculator-body">
+            <input type="text" id="display" disabled>
+            <div>
+                <button class="button" onclick="appendToDisplay('7')">7</button>
+                <button class="button" onclick="appendToDisplay('8')">8</button>
+                <button class="button" onclick="appendToDisplay('9')">9</button>
+                <button class="button" onclick="appendToDisplay('/')">/</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('4')">4</button>
+                <button class="button" onclick="appendToDisplay('5')">5</button>
+                <button class="button" onclick="appendToDisplay('6')">6</button>
+                <button class="button" onclick="appendToDisplay('*')">*</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('1')">1</button>
+                <button class="button" onclick="appendToDisplay('2')">2</button>
+                <button class="button" onclick="appendToDisplay('3')">3</button>
+                <button class="button" onclick="appendToDisplay('-')">-</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('0')">0</button>
+                <button class="button" onclick="appendToDisplay('.')">.</button>
+                <button class="button" onclick="appendToDisplay('+')">+</button>
+                <button class="button" onclick="calculateResult()">=</button>
+            </div>
+            <div>
+                <button class="button" onclick="appendToDisplay('sin(')">sin</button>
+                <button class="button" onclick="appendToDisplay('cos(')">cos</button>
+                <button class="button" onclick="appendToDisplay('tan(')">tan</button>
+                <button class="button" onclick="appendToDisplay('sqrt(')">√</button>
+            </div>
+            <div>
+                <button class="button" onclick="clearDisplay()">C</button>
+                <button class="button" onclick="appendToDisplay('(')">(</button>
+                <button class="button" onclick="appendToDisplay(')')">)</button>
+                <button class="button" onclick="appendToDisplay('pi')">π</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('webcam');
+        const webcamMonitor = document.getElementById('webcam-monitor');
+        const timerElement = document.getElementById('timer');
+        const content = document.querySelector('.content');
+        const subjectName = document.getElementById('subject-name');
+        const cameraToggle = document.getElementById('camera-toggle');
+        const micToggle = document.getElementById('mic-toggle');
+
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        let timerInterval;
+        let timeRemaining = 60 * 60; // 60 minutes in seconds
+
+        let stream;
+        let isCameraOn = true;
+        let isMicOn = true;
+
+        // Start timer function
+        function startTimer() {
+            function updateTimer() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                if (timeRemaining > 0) {
+                    timeRemaining--;
+                } else {
+                    clearInterval(timerInterval);
+                    alert("Time's up! Submitting the exam...");
+                    // Add submission logic here
+                }
+            }
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Access the user's webcam and display the questions only after permission is granted
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((userStream) => {
+                stream = userStream;
+                video.srcObject = stream;
+                startTimer(); // Start the timer only when the camera is allowed
+                content.style.display = 'block'; // Show the questions
+            })
+            .catch((error) => {
+                console.error("Error accessing webcam or microphone: ", error);
+                if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+                    alert("Camera permission denied! Unable to access the exam.");
+                }
+            });
+
+        // Helper functions to update the camera and mic icons and state
+        function updateCameraUI(state) {
+            isCameraOn = state;
+            if (state) {
+                cameraToggle.classList.replace('fa-video-slash', 'fa-video');
+                cameraToggle.style.color = ''; // Reset color to default
+            } else {
+                cameraToggle.classList.replace('fa-video', 'fa-video-slash');
+                cameraToggle.style.color = 'red'; // Set color to red
+            }
+        }
+
+        function updateMicUI(state) {
+            isMicOn = state;
+            if (state) {
+                micToggle.classList.replace('fa-microphone-slash', 'fa-microphone');
+                micToggle.style.color = ''; // Reset color to default
+            } else {
+                micToggle.classList.replace('fa-microphone', 'fa-microphone-slash');
+                micToggle.style.color = 'red'; // Set color to red
+            }
+        }
+
+        // Update toggle functions to reflect current state
+        function toggleCamera() {
+            if (stream) {
+                isCameraOn = !isCameraOn;
+                updateCameraUI(isCameraOn);
+                stream.getTracks().forEach((track) => {
+                    if (track.kind === 'video') track.enabled = isCameraOn;
+                });
+            }
+        }
+
+        function toggleMic() {
+            if (stream) {
+                isMicOn = !isMicOn;
+                updateMicUI(isMicOn);
+                stream.getTracks().forEach((track) => {
+                    if (track.kind === 'audio') track.enabled = isMicOn;
+                });
+            }
+        }
+
+        webcamMonitor.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - webcamMonitor.offsetLeft;
+            offsetY = e.clientY - webcamMonitor.offsetTop;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                webcamMonitor.style.left = `${e.clientX - offsetX}px`;
+                webcamMonitor.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Function to append text to the display
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        // Function to clear the display
+        function clearDisplay() {
+            document.getElementById("display").value = '';
+        }
+
+        // Function to calculate the result
+        function calculateResult() {
+            try {
+                let result = eval(document.getElementById("display").value);
+                if (result === Infinity || result === -Infinity || isNaN(result)) {
+                    throw "Invalid";
+                }
+                document.getElementById("display").value = result;
+            } catch (e) {
+                document.getElementById("display").value = 'Error';
+            }
+        }
+
+        // Function to make the calculator movable
+        let calculator = document.getElementById("calculator");
+        let header = document.getElementById("calculator-header");
+        let isMoving = false;
+        let offsetx, offsety;
+
+        header.addEventListener('mousedown', function(e) {
+            isMoving = true;
+            offsetX = e.clientX - calculator.offsetLeft;
+            offsetY = e.clientY - calculator.offsetTop;
+            document.body.style.cursor = 'move';
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (isMoving) {
+                calculator.style.left = (e.clientX - offsetX) + 'px';
+                calculator.style.top = (e.clientY - offsetY) + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isMoving = false;
+            document.body.style.cursor = 'auto';
+        });
+    </script>
+</body>
+
+</html>

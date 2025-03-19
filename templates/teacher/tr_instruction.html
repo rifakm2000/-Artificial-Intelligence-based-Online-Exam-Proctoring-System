@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalize Examination Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2A5C9A;
+            --secondary-color: #4A90E2;
+            --accent-color: #F0F6FF;
+            --text-primary: #2D3748;
+            --text-secondary: #718096;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--accent-color);
+            padding: 40px 20px;
+        }
+
+        .navbar {
+            margin-bottom: 2rem;
+            padding: 0 20px;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand__primary {
+            color: var(--primary-color);
+        }
+
+        .navbar-brand__secondary {
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 2rem auto;
+            background: #FFFFFF;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E2E8F0;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .form-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid #CBD5E0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+
+        .form-helper {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .submit-btn {
+            background-color: #1a365d;
+            color: white;
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #4299e1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (min-width: 480px) {
+            .submit-btn {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span class="navbar-brand__primary"></span>
+            <span class="navbar-brand__secondary"></span>
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="form-header">
+            <h2>Examination Finalization</h2>
+        </div>
+        
+        <form action="/instruction/{{ exam_id }}" method="POST">
+            <div class="form-group">
+                <label class="form-label" for="exam-duration">Duration (minutes)</label>
+                <input type="number" class="form-control" id="exam-duration" name="exam-duration" placeholder="120" required>
+                <span class="form-helper">Total exam duration in minutes</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="exam-rules">Examination Rules</label>
+                <textarea class="form-control" id="exam-rules" name="exam-rules" rows="4" placeholder="Enter examination rules..." style="resize: vertical;"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="exam-date">Scheduled Date</label>
+                <input type="date" class="form-control" id="exam-date" name="exam-date" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="exam-time">Start Time</label>
+                <input type="time" class="form-control" id="exam-time" name="exam-time" required>
+                <span class="form-helper">Local timezone: UTC +0</span>
+            </div>
+
+            <button type="submit" class="submit-btn">Finalize Examination</button>
+        </form>
+    </div>
+</body>
+
+</html>
