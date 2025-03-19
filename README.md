@@ -5,5 +5,5 @@ Designed an AI-driven proctoring system to monitor and prevent cheating in onlin
 1. **Face Detection & Recognition:** Identifies registered students and prevents spoofing attacks using OpenCV and dlib.
 2. **Person Counting & Unauthorized Face Detection:** Detects multiple faces and ensures only one test-taker is present.
 3. **Object Detection:** Uses YOLO to detect prohibited items like mobile phones, books, and other cheating materials.
-4. **Technologies Used:** Python, Flask, OpenCV, dlib, YOLO, MySQL.
+
 
