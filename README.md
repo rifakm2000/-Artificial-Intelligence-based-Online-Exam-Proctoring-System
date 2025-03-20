@@ -17,4 +17,4 @@ The AI-Powered Online Proctoring System is a state-of-the-art solution designed 
 5. **Database:** MySQL
 
 ## Contact 
-For any feedback or queries, please reach out to me at [LinkedIn](https://www.linkedin.com/in/rifa071/)
+For questions or inquiries, please contact me at [LinkedIn](https://www.linkedin.com/in/rifa071/)
