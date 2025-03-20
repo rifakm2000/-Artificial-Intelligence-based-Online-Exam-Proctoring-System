@@ -15,3 +15,6 @@ The AI-Powered Online Proctoring System is a state-of-the-art solution designed 
 3. **Object Detection:** YOLO (You Only Look Once)
 4. **Web Development:** Flask (Backend), HTML, CSS, JS (Frontend)
 5. **Database:** MySQL
+
+## Contact 
+For any feedback or queries, please reach out to me at [LinkedIn](https:/www.linkedin.com/in/rifa071/)
