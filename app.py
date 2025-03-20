@@ -51,8 +51,8 @@ app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key')  # Use environm
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': '12309857',
-    'database': 'proctor'
+    'password': '',
+    'database': ''
 }
 
 
@@ -1399,36 +1399,6 @@ def detect_face_violations(frame):
             if detect_looking_away(landmarks_np):
                 violations.append("Looking away from screen")
             
-            # Detect gaze direction
-            # horizontal_gaze, vertical_gaze = detect_gaze_direction(landmarks_np, frame)
-            # current_time = time.time()
-            
-            # Determine if gaze is off-screen
-            # gaze_off_screen = horizontal_gaze != "center" or vertical_gaze != "center"
-            
-            # Update gaze status tracking
-            # if gaze_off_screen:
-                #if current_gaze_status == "center":
-                    # Start tracking violation duration
-                    #gaze_violation_start_time = current_time
-                    #current_gaze_status = "off-screen"
-                #else:
-                    # Check if violation has exceeded threshold
-                    #if current_time - gaze_violation_start_time > 10:
-                        #violations.append("Prolonged gaze off-screen")
-                        #details['gaze'] = f"{horizontal_gaze}/{vertical_gaze}"
-                        # Reset the violation tracking
-                        #gaze_violation_start_time = current_time
-            #else:
-                # Reset gaze status when gaze returns to center
-                #if current_gaze_status != "center":
-                    #current_gaze_status = "center"
-        
-            # Detect head position
-            #head_position = detect_head_position(landmarks_np)
-            #if head_position != "center":
-                #violations.append(f"Head turned {head_position}")
-                #details['head_position'] = head_position
         
     except Exception as e:
         print(f"Error in face violation detection: {e}")
@@ -1436,125 +1406,7 @@ def detect_face_violations(frame):
     return violations, details
 
 
-# Add a variable to track the last gaze violation notification time
-last_gaze_violation_time = 0
 
-def detect_gaze_direction(landmarks, frame):
-    """Detect gaze direction based on eye landmarks"""
-    try:
-        # Extract left and right eye coordinates
-        left_eye = landmarks[36:42]
-        right_eye = landmarks[42:48]
-        
-        # Calculate gaze direction for each eye
-        left_gaze = calculate_eye_gaze(left_eye, frame)
-        right_gaze = calculate_eye_gaze(right_eye, frame)
-        
-        # Average the gaze directions
-        avg_gaze_horizontal = (left_gaze[0] + right_gaze[0]) / 2
-        avg_gaze_vertical = (left_gaze[1] + right_gaze[1]) / 2
-        
-        # Determine gaze direction with thresholds
-        horizontal_direction = "center"
-        vertical_direction = "center"
-        
-        # Horizontal thresholds
-        if avg_gaze_horizontal < -0.35:
-            horizontal_direction = "left"
-        elif avg_gaze_horizontal > 0.35:
-            horizontal_direction = "right"
-        
-        # Vertical thresholds
-        if avg_gaze_vertical < -0.35:
-            vertical_direction = "up"
-        elif avg_gaze_vertical > 0.35:
-            vertical_direction = "down"
-        
-        return horizontal_direction, vertical_direction
-    except:
-        return "center", "center"
-
-# Update the eye gaze calculation to include vertical component
-def calculate_eye_gaze(eye_landmarks, frame):
-    """Calculate gaze direction for a single eye"""
-    try:
-        # Extract eye region
-        x_coords = eye_landmarks[:,0]
-        y_coords = eye_landmarks[:,1]
-        x_min, x_max = min(x_coords), max(x_coords)
-        y_min, y_max = min(y_coords), max(y_coords)
-        
-        eye_region = frame[y_min:y_max, x_min:x_max]
-        
-        # Convert to grayscale
-        eye_gray = cv2.cvtColor(eye_region, cv2.COLOR_BGR2GRAY)
-        
-        # Threshold to get iris
-        _, threshold = cv2.threshold(eye_gray, 70, 255, cv2.THRESH_BINARY)
-        
-        # Find contours
-        contours, _ = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        
-        if contours:
-            contour = max(contours, key=cv2.contourArea)
-            M = cv2.moments(contour)
-            if M['m00'] != 0:
-                cx = int(M['m10'] / M['m00'])
-                cy = int(M['m01'] / M['m00'])
-                
-                # Calculate gaze direction
-                height, width = eye_gray.shape
-                horizontal_ratio = (cx - (width / 2)) / (width / 2)
-                vertical_ratio = (cy - (height / 2)) / (height / 2)
-                
-                return (horizontal_ratio, vertical_ratio)
-        
-        return (0, 0)
-    except:
-        return (0, 0)
-
-
-# Function to detect head position
-def detect_head_position(landmarks):
-    """Detect if head is turned left, right, up, or down"""
-    try:
-        # Calculate head position based on facial landmarks
-        # This is a simplified approach and might need adjustment
-        # for better accuracy
-        
-        # Get key landmarks
-        nose = landmarks[30]
-        left_eye = landmarks[36]
-        right_eye = landmarks[45]
-        left_mouth = landmarks[48]
-        right_mouth = landmarks[54]
-        
-        # Calculate face center
-        face_center_x = (left_eye[0] + right_eye[0]) / 2
-        face_center_y = (left_eye[1] + right_eye[1]) / 2
-        
-        # Calculate horizontal and vertical deviations
-        horizontal_deviation = nose[0] - face_center_x
-        vertical_deviation = nose[1] - face_center_y
-        
-        # Determine head position
-        head_position = "center"
-        
-        # Horizontal thresholds
-        if horizontal_deviation > 70:
-            head_position = "right"
-        elif horizontal_deviation < -70:
-            head_position = "left"
-        
-        # Vertical thresholds
-        if vertical_deviation > 70:
-            head_position = "down"
-        elif vertical_deviation < -70:
-            head_position = "up"
-        
-        return head_position
-    except:
-        return "center"
     
 
 # Function to detect prohibited objects using YOLO
