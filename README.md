@@ -16,5 +16,39 @@ The AI-Powered Online Proctoring System is a state-of-the-art solution designed 
 4. **Web Development:** Flask (Backend), HTML, CSS, JS (Frontend)
 5. **Database:** MySQL
 
+## Project Screenshots
+
+
+### Home Page
+
+![Home Page](readme-images/home-page.png)
+
+### Login Page
+
+- #### Student
+
+![Login Page](readme-images/login-page-student.png)
+
+
+### Signup Page
+
+![Singup Page](readme-images/signup-page.png)
+
+### Dashboard
+
+- #### Student
+
+![Student Dashboard](readme-images/student-dash.png)
+
+- #### Teacher
+
+![Teacher Dashboard](readme-images/teacher-dash.png)
+
+- #### Admin
+
+![Admin Dashboard](readme-images/admin-dash.png)
+
+
+
 ## Contact 
 For questions or inquiries, please contact me at [LinkedIn](https://www.linkedin.com/in/rifa071/)
