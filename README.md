@@ -1,9 +1,17 @@
 # AI based Online Exam Proctoring System
-Designed an AI-driven proctoring system to monitor and prevent cheating in online exams. Utilizes real-time face recognition, person counting, and object detection to ensure exam integrity. Detects multiple faces, prevents spoofing, and flags prohibited items using OpenCV and YOLO. Provides secure, automated, and scalable proctoring solutions for online assessments. Developed using Python, Flask, OpenCV, dlib, and MySQL.
+The AI-Powered Online Proctoring System is a state-of-the-art solution designed to ensure the integrity and security of online exams. By leveraging advanced artificial intelligence and machine learning techniques, this system provides real-time monitoring and analysis of test-takers to detect and prevent cheating behaviors. It is ideal for educational institutions, certification bodies, and organizations conducting remote assessments.
 
 ## Key Features
-1. **Face Detection & Recognition:** Identifies registered students and prevents spoofing attacks using OpenCV and dlib.
-2. **Person Counting & Unauthorized Face Detection:** Detects multiple faces and ensures only one test-taker is present.
-3. **Object Detection:** Uses YOLO to detect prohibited items like mobile phones, books, and other cheating materials.
+1. **Real-Time Video Monitoring:** Utilizes webcam feeds to monitor test-takers in real-time, ensuring they adhere to exam rules.
+2. **Face Detection and Recognition:** Detects and verifies the identity of the test-taker using facial recognition technology.
+3. **Person Counting:** Uses OpenCV Haar Cascades to count the number of faces in the frame and flag unauthorized persons.
+4. **Object Detection:** Identifies prohibited objects (e.g., phones, books) in the test environment using YOLO.
+5. **User Notifications:** Users can view real-time notifications about violations or suspicious activities.
+6. **Secure Exam Environment:** Restricts access to other applications, websites, or system resources during the exam.
 
-
+## Technologies Used
+1. **AI/ML Frameworks:** TensorFlow, DeepFace, OpenCV
+2. **Face Recognition:** dlib, face_recognition
+3. **Object Detection:** YOLO (You Only Look Once)
+4. **Web Development:** Flask (Backend), HTML, CSS, JS (Frontend)
+5. **Database:** MySQL
