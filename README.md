@@ -42,7 +42,7 @@ The AI-Powered Online Proctoring System is a state-of-the-art solution designed 
 
 #### Student Exam Portal
 
-![Student Dashboard](readme-images/stut-exam-portalF11.png)
+![Student Dashboard](readme-images/stu-exam-portalF11.png)
 
 ![Student Dashboard](readme-images/stu-exam-portal.png)
 
