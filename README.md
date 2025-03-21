@@ -23,16 +23,6 @@ The AI-Powered Online Proctoring System is a state-of-the-art solution designed 
 
 ![Home Page](readme-images/home-page.png)
 
-### Login Page
-
-- #### Student
-
-![Login Page](readme-images/login-page-student.png)
-
-
-### Signup Page
-
-![Singup Page](readme-images/signup-page.png)
 
 ### Dashboard
 
